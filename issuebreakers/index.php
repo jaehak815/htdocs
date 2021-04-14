@@ -491,13 +491,13 @@ error_reporting(0);
        <figure class="effect-bubba">
        <?php
         $var = $row1["cam_id"];  ?>
-       <a  href="<?php echo "jumbo.php?camid=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
+       <a  href="<?php echo "jumbo.php?cam_id=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
          class="img-fluid" ></a>
 
          <figcaption>
            <h2><?php echo $row1["cam_name"]; ?></span></h2>
            <p>View more</p>
-           <a  href="<?php echo "jumbo.php?camid=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
+           <a  href="<?php echo "jumbo.php?cam_id=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
              class="img-fluid" ></a>
          </figcaption>
     </figure>

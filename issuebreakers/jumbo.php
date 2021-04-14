@@ -17,6 +17,8 @@ $_SESSION['user_id'] = (int)2;
       <link rel="stylesheet" href="css/all.min.css" />
       <link rel="stylesheet" href="css/bootstrap.min.css" />
       <link rel="stylesheet" href="css/templatemo-style.css" />
+      	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
   </head>
   <body>
@@ -27,7 +29,7 @@ $_SESSION['user_id'] = (int)2;
       </a>
     </div>
 <?php
-    $sql = "SELECT * FROM campaigns where cam_id=".$_GET['camid'];
+    $sql = "SELECT * FROM campaigns where cam_id=".$_GET['cam_id'];
 $result = mysqli_query($link, $sql);
 
 if (mysqli_num_rows($result) > 0) {
@@ -49,9 +51,52 @@ $paragraph1 = $row["owner_desc"];
     <p><?php echo "Website: ".$row["URL"]; ?></p>
 
 
+<!-- likes dislikes script -->
+    <script>
+    function like_update(cam_id){
+      jQuery.ajax({
+        url:'update_count.php',
+        type:'post',
+        data:'type=likes&cam_id='+cam_id,
+        success:function(result){
+          var cur_count=jQuery('#like_loop_'+cam_id).html();
+          cur_count++;
+          jQuery('#like_loop_'+cam_id).html(cur_count);
 
-    <a class="btn btn-primary btn-lg" href="#" role="button">Like <?php echo $row["likes"]  ?></a>
-    <a class="btn btn-primary btn-lg" href="index.php" role="button">Back</a>
+        }
+      });
+    }
+
+    function dislike_update(cam_id){
+      jQuery.ajax({
+        url:'update_count.php',
+        type:'post',
+        data:'type=dislikes&cam_id='+cam_id,
+        success:function(result){
+          var cur_count=jQuery('#dislike_loop_'+cam_id).html();
+          cur_count++;
+          jQuery('#dislike_loop_'+cam_id).html(cur_count);
+
+        }
+      });
+    }
+    </script>
+
+
+
+<!-- like dislike button -->
+    <div class="row main_box">
+      <div class="col-sm-2 mr25">
+        <a href="javascript:void(0)" class="btn btn-info btn-lg">
+          <span class="glyphicon glyphicon-thumbs-up" onclick="like_update('<?php echo $row['cam_id']?>')"> Like (<span id="like_loop_<?php echo $row['cam_id']?>"><?php echo $row['likes']?></span>)</span>
+        </a>
+      </div>
+      <div class="col-sm-2">
+        <a href="javascript:void(0)" class="btn btn-info btn-lg">
+          <span class="glyphicon glyphicon-thumbs-down" onclick="dislike_update('<?php echo $row['cam_id']?>')"> Dislike (<span id="dislike_loop_<?php echo $row['cam_id']?>"><?php echo $row['dislikes']?></span>)</span>
+        </a>
+      </div>
+    </div>
   </div>
   </div>
 <?php  }
