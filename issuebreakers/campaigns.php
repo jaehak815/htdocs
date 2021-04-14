@@ -1,3 +1,11 @@
+<?php
+
+// Initialize the session
+
+session_start();
+require "config.php";
+error_reporting(0);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -52,7 +60,13 @@
                   </li>
                   <li class="nav-item">
                     <div class="tm-nav-link-highlight"></div>
-                    <a class="nav-link" href="login.php">Login</a>
+
+                <?php if($_SESSION['username']){
+                ?> <a class="nav-link" href="logout.php" />Logout</a> &nbsp;
+               <?php } else { ?>
+                 <a class="nav-link" href="login.php" > Login </a>
+               <?php } ?>
+
                   </li>
                 </ul>
               </div>
@@ -149,9 +163,15 @@
                   </figcaption>
                 </figure>
               </div>
+
+
+
+
               <div class="tm-gallery-item category-1">
                 <figure class="effect-bubba">
                   <img
+
+
                     src="img/gallery/gallery-item-03.jpg"
                     alt="Gallery item"
                     class="img-fluid"
@@ -159,10 +179,13 @@
                   <figcaption>
                     <h2>Fresh <span>Bubba</span></h2>
                     <p>Bubba likes to appear out of thin air.</p>
-                    <a href="#">View more</a>
+                    <a href="cam_detail.php">View more</a>
                   </figcaption>
                 </figure>
               </div>
+
+
+
               <div class="tm-gallery-item category-3">
                 <figure class="effect-bubba">
                   <img

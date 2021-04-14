@@ -6,7 +6,6 @@ session_start();
 require "config.php";
 error_reporting(0);
 
-// Check if the user is logged in, if not then redirect him to login page
 
 ?>
 <!DOCTYPE html>
@@ -23,7 +22,8 @@ error_reporting(0);
   </head>
   <body>
 
-
+<!-- scroll up -->
+<a href="#" id="toTopBtn" class="cd-top text-replace js-cd-top cd-top--is-visible cd-top--fade-out" data-abc="true"></a>
 
     <div class="container-fluid">
       <div class="row tm-brand-row">
@@ -38,6 +38,7 @@ error_reporting(0);
         </div>
         <div class="col-lg-8 col-2 tm-nav-col">
           <div class="tm-nav">
+            <class="nav-item">
             <nav class="navbar navbar-expand-lg navbar-light tm-navbar">
               <button
                 class="navbar-toggler"
@@ -52,10 +53,8 @@ error_reporting(0);
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto mr-0">
 
-                  <li class="nav-item active">
-                    <div class="tm-nav-link-highlight"></div>
-                    <?php echo htmlspecialchars($_SESSION["username"]); ?>
-                  </li>
+                  <div class="tm-nav-link-highlight"></div>
+                  <?php echo htmlspecialchars($_SESSION["username"]); ?>
 
                     <a class="nav-link" href="#"
                       >Home <span class="sr-only">(current)</span></a
@@ -63,15 +62,14 @@ error_reporting(0);
                   </li>
                   <li class="nav-item">
                     <div class="tm-nav-link-highlight"></div>
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link" href="#about">About</a>
                   </li>
                   <li class="nav-item">
                     <div class="tm-nav-link-highlight"></div>
-                    <a class="nav-link" href="campaigns.php">Campaigns</a>
+                    <a class="nav-link" href="#campaigns">Campaigns</a>
                   </li>
                   <li class="nav-item">
                     <div class="tm-nav-link-highlight"></div>
-
 
                 <?php if($_SESSION['username']){
                 ?> <a class="nav-link" href="logout.php" />Logout</a> &nbsp;
@@ -79,8 +77,15 @@ error_reporting(0);
                  <a class="nav-link" href="login.php" > Login </a>
                <?php } ?>
 
+                  </li>
 
+                  <li class="nav-item">
+                    <div class="tm-nav-link-highlight"></div>
 
+                <?php
+                 if (($_SESSION["username"]=="admin") && ($_SESSION["usergroup"]==0)) {
+                ?> <a class="nav-link" href="approval.php" />Manage</a> &nbsp;
+               <?php  }    ?>
 
 
                   </li>
@@ -176,6 +181,349 @@ error_reporting(0);
       </div>
       <!-- row -->
 
+      <section class="row tm-pt-4 tm-pb-6" id="about">
+        <div class="col-12 tm-tabs-container tm-page-cols-container">
+          <div class="tm-page-col-left tm-tab-links">
+            <ul class="tabs clearfix" data-tabgroup="first-tab-group">
+              <li>
+                <a href="#tab1" class="active">
+                  <div class="tm-tab-icon"></div>
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#tab2" class="">
+                  <div class="tm-tab-icon"></div>
+                  Vision and Mission
+                </a>
+              </li>
+              <li>
+                <a href="#tab3" class="">
+                  <div class="tm-tab-icon"></div>
+                  Our History
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="tm-page-col-right tm-tab-contents">
+            <div id="first-tab-group" class="tabgroup">
+              <div id="tab1">
+                <div class="text-content">
+                  <h3 class="tm-text-secondary tm-mb-5">
+                    About Us
+                  </h3>
+                  <p class="tm-mb-5">
+                    Above pink girl photo is provided by Moose Photos from
+                    Pexels. This is a tab content area. There are 3 tabs at the
+                    left side. Curabitur porttitor metus nisl. Nullam nec dictum
+                    dolor. Sed ultricies purus nec suscipit vulputate. Fusce a
+                    massa eu orci vulputate varius. Quisque quis ullamcorper
+                    sapien. Integer eu luctus nulla, vel viverra odio.
+                  </p>
+                  <p class="tm-mb-5">
+                    Praesent id felis ac erat elementum condimentum.
+                    Pellentesque a libero vitae nisi vestibulum tempor vitae
+                    vitae nulla. Praesent ut eleifend ligula, nec pretium erat.
+                    Suspendisse nec magna id massa sollicitudin aliquam eget ut
+                    turpis.
+                  </p>
+                </div>
+                <div class="row tm-pt-5">
+                  <div class="col-md-4 text-center">
+                    <div class="tm-about-person mx-auto">
+                      <img
+                        src="img/bitcoin-girl.jpg"
+                        alt="Image"
+                        class="img-fluid tm-mb-1"
+                      />
+                      <h4 class="tm-text-secondary tm-mb-1">
+                        Catherine Theta
+                      </h4>
+                      <p class="tm-mb-2">Project Manager</p>
+                      <div class="tm-mb-3">
+                        <a
+                          href="https://facebook.com"
+                          class="tm-about-social-link"
+                        >
+                          <i class="fab fa-facebook-f tm-about-social-icon"></i>
+                        </a>
+                        <a
+                          href="https://twitter.com"
+                          class="tm-about-social-link"
+                        >
+                          <i class="fab fa-twitter tm-about-social-icon"></i>
+                        </a>
+                        <a
+                          href="https://linkedin.com"
+                          class="tm-about-social-link"
+                        >
+                          <i
+                            class="fab fa-linkedin-in tm-about-social-icon"
+                          ></i>
+                        </a>
+                      </div>
+
+                      <p>
+                        Mauris efficitur risus mi, et varius dolor sodales
+                        facilisis. Fusce sed mi tristique.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 text-center">
+                    <div class="tm-about-person mx-auto">
+                      <img
+                        src="img/ar-guy.jpg"
+                        alt="Image"
+                        class="img-fluid tm-mb-1"
+                      />
+                      <h4 class="tm-text-secondary tm-mb-1">New Hudson</h4>
+                      <p class="tm-mb-2">Digital Marketing</p>
+                      <div class="tm-mb-3">
+                        <a
+                          href="https://facebook.com"
+                          class="tm-about-social-link"
+                        >
+                          <i class="fab fa-facebook-f tm-about-social-icon"></i>
+                        </a>
+                        <a
+                          href="https://twitter.com"
+                          class="tm-about-social-link"
+                        >
+                          <i class="fab fa-twitter tm-about-social-icon"></i>
+                        </a>
+                        <a
+                          href="https://linkedin.com"
+                          class="tm-about-social-link"
+                        >
+                          <i
+                            class="fab fa-linkedin-in tm-about-social-icon"
+                          ></i>
+                        </a>
+                      </div>
+                      <p>
+                        Pellentesque habitant morbi tristique senectus et netus
+                        et malesuada fames.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 text-center">
+                    <div class="tm-about-person mx-auto">
+                      <img
+                        src="img/desk-girl.jpg"
+                        alt="Image"
+                        class="img-fluid tm-mb-1"
+                      />
+                      <h4 class="tm-text-secondary tm-mb-1">Jennifer Wall</h4>
+                      <p class="tm-mb-2">Team Leader</p>
+                      <div class="tm-mb-3">
+                        <a
+                          href="https://facebook.com"
+                          class="tm-about-social-link"
+                        >
+                          <i class="fab fa-facebook-f tm-about-social-icon"></i>
+                        </a>
+                        <a
+                          href="https://twitter.com"
+                          class="tm-about-social-link"
+                        >
+                          <i class="fab fa-twitter tm-about-social-icon"></i>
+                        </a>
+                        <a
+                          href="https://linkedin.com"
+                          class="tm-about-social-link"
+                        >
+                          <i
+                            class="fab fa-linkedin-in tm-about-social-icon"
+                          ></i>
+                        </a>
+                      </div>
+                      <p>
+                        Three social icons are placed in above circles. Sed
+                        turpis nisl, congue a arcu in.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="tab2">
+                <div class="text-content">
+                  <h3 class="tm-text-secondary tm-mb-5">Vision and Mission</h3>
+                  <p class="tm-mb-5">
+                    Nam consequat, leo vitae aliquet dignissim, leo est laoreet
+                    nibh, nec dictum libero justo vitae dolor. Donec tristique
+                    eros at nisi elementum efficitur. Proin ornare feugiat ex
+                    placerat pellenteqsue. Nulla convallis est volutpat ex
+                    ultrices facilisis.
+                  </p>
+                  <p class="tm-mb-5">
+                    Etiam egestas metus vitae est interdum, in eleifend nunc
+                    volutpat. Aliquam molestie ipsum quis suscipit lacinia.
+                    Mauris turpis libero, iaculis non dictum ac, ornare a massa.
+                    Duis id lorem purus. Fusce viverra ullamcorper metus.
+                    Curabitur puvinar suscipit sapien ac blandit. Aliquam vel
+                    pulvinar purus, sit amet luctus urna.
+                  </p>
+                </div>
+              </div>
+
+              <div id="tab3">
+                <div class="text-content">
+                  <h3 class="tm-text-secondary tm-mb-5">Our History</h3>
+                  <p class="tm-mb-5">
+                    Mauris turpis libero, iaculis non dictum ac, ornare a massa.
+                    Duis id lorem purus. Fusce viverra ullamcorper metus.
+                    Curabitur puvinar suscipit sapien ac blandit. Aliquam vel
+                    pulvinar purus, sit amet luctus urna. Nulla convallis est
+                    volutpat ex ultrices facilisis.
+                  </p>
+                  <p class="tm-mb-5">
+                    Etiam egestas metus vitae est interdum, in eleifend nunc
+                    volutpat. Aliquam molestie ipsum quis suscipit lacinia. Nam
+                    consequat, leo vitae aliquet dignissim, leo est laoreet
+                    nibh, nec dictum libero justo vitae dolor. Donec tristique
+                    eros at nisi elementum efficitur. Proin ornare feugiat ex
+                    placerat pellenteqsue.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="row tm-welcome-row" id="campaigns">
+        <div class="col-12">
+          <div
+            class="tm-welcome-parallax tm-center-child"
+            data-parallax="scroll"
+            data-image-src="img/blooming-bg.jpg"
+          >
+            <div class="tm-bg-black-transparent tm-parallax-overlay">
+              <h2>Campaigns</h2>
+              <p>Create your own campaigns</p>
+            <a href="create_cam.php"> <button type="button" class="btn btn-outline-light">Create</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="row tm-pt-4">
+        <div class="col-12 tm-page-cols-container">
+          <div class="tm-page-col-left">
+            <ul class="tabs clearfix filters-button-group">
+              <li>
+                <a href="#" class="active" data-filter="*">
+                  <div class="tm-tab-icon"></div>
+                  All Types
+                </a>
+              </li>
+              <li>
+                <a href="#" class="" data-filter=".category-1">
+                  <div class="tm-tab-icon"></div>
+                  Environment
+                </a>
+              </li>
+              <li>
+                <a href="#" class="" data-filter=".category-2">
+                  <div class="tm-tab-icon"></div>
+                  Education
+                </a>
+              </li>
+              <li>
+                <a href="#" class="" data-filter=".category-3">
+                  <div class="tm-tab-icon"></div>
+                  Employment
+                </a>
+              </li>
+              <li>
+                <a href="#" class="" data-filter=".category-4">
+                  <div class="tm-tab-icon"></div>
+                  Health
+                </a>
+              </li>
+              <li>
+                <a href="#" class="" data-filter=".category-5">
+                  <div class="tm-tab-icon"></div>
+                  Others
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="tm-page-col-right">
+
+<div class="tm-gallery" id="tmGallery">
+  <?php
+
+
+   $sql1="select * from campaigns";
+   $res1=mysqli_query($link, $sql1);
+  while($row1=mysqli_fetch_assoc($res1)){
+
+     if ($row1["category"] == "Environment") {$a=  "tm-gallery-item category-1";}
+     elseif ($row1["category"] == "Education") {$a=  "tm-gallery-item category-2";}
+     elseif ($row1["category"] == "Employment") {$a=  "tm-gallery-item category-3";}
+     elseif ($row1["category"] == "Health") {$a=  "tm-gallery-item category-4";}
+      elseif ($row1["category"] == "Others") {$a=  "tm-gallery-item category-5";}
+
+
+      ?>
+  <div class="<?php echo $a; ?>">
+
+
+
+       <figure class="effect-bubba">
+       <?php
+        $var = $row1["cam_id"];  ?>
+       <a  href="<?php echo "jumbo.php?camid=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
+         class="img-fluid" ></a>
+
+         <figcaption>
+           <h2><?php echo $row1["cam_name"]; ?></span></h2>
+           <p>View more</p>
+           <a  href="<?php echo "jumbo.php?camid=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
+             class="img-fluid" ></a>
+         </figcaption>
+    </figure>
+
+
+
+
+</div>
+<?php
+} ?>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+
+
+
       <!-- Page footer -->
       <footer class="row tm-page-footer">
         <p class="col-12 tm-copyright-text mb-0">
@@ -189,6 +537,76 @@ error_reporting(0);
 
     <script src="js/jquery.min.js"></script>
     <script src="js/parallax.min.js"></script>
+    <script src="js/imagesloaded.pkgd.min.js"></script>
+    <script src="js/isotope.pkgd.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+$(window).scroll(function() {
+if ($(this).scrollTop() > 20) {
+$('#toTopBtn').fadeIn();
+} else {
+$('#toTopBtn').fadeOut();
+}
+});
+
+$('#toTopBtn').click(function() {
+$("html, body").animate({
+scrollTop: 0
+}, 1000);
+return false;
+});
+});
+</script>
+
+
+    <script>
+      $(function() {
+        /* Isotope Gallery */
+
+        // init isotope
+        var $gallery = $(".tm-gallery").isotope({
+          itemSelector: ".tm-gallery-item",
+          layoutMode: "fitRows"
+        });
+        // layout Isotope after each image loads
+        $gallery.imagesLoaded().progress(function() {
+          $gallery.isotope("layout");
+        });
+
+        $(".filters-button-group").on("click", "a", function() {
+          var filterValue = $(this).attr("data-filter");
+          $gallery.isotope({ filter: filterValue });
+          console.log("Filter value: " + filterValue);
+        });
+
+        /* Tabs */
+        $(".tabgroup > div").hide();
+        $(".tabgroup > div:first-of-type").show();
+        $(".tabs a").click(function(e) {
+          e.preventDefault();
+          var $this = $(this),
+            tabgroup = "#" + $this.parents(".tabs").data("tabgroup"),
+            others = $this
+              .closest("li")
+              .siblings()
+              .children("a"),
+            target = $this.attr("href");
+          others.removeClass("active");
+          $this.addClass("active");
+
+          // Scroll to tab content (for mobile)
+          if ($(window).width() < 992) {
+            $("html, body").animate(
+              {
+                scrollTop: $("#tmGallery").offset().top
+              },
+              200
+            );
+          }
+        });
+      });
+    </script>
+
   </body>
 </html>

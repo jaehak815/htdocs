@@ -1,239 +1,279 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["username"])) {
+//If user did not login, will not be setting the session, it will jump back to the login page. Otherwise, continue to execute down HTML code
+    echo "<script>alert('Please login!');
+    window.location.href = 'login.php';
+</script>";
+
+}
+
+
+// Include config file
+require_once "config.php";
+
+// Define variables and initialize with empty values
+$cam_name = $cam_desc = $category = $cam_image = $owner_name = $owner_desc = $owner_image = $URL = "";
+$cam_name_err = $cam_desc_err = $category_err = $owner_name_err = $owner_desc_err = "";
+
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    // Validate campaign name
+    if(empty(trim($_POST["cam_name"]))){
+        $cam_name_err = "Please enter a campaign name.";
+    } else{
+        // Prepare a select statement
+        $sql = "SELECT cam_id FROM campaigns WHERE cam_name = ?";
+
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_cam_name);
+
+            // Set parameters
+            $param_cam_name = trim($_POST["cam_name"]);
+
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $cam_name_err = "This campaign name is already taken.";
+                } else{
+                    $cam_name = trim($_POST["cam_name"]);
+
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later1.";
+
+            }
+
+            // Close statement
+            mysqli_stmt_close($stmt);
+        }
+    }
+
+  // Validate campaign description
+  if(empty(trim($_POST["cam_desc"]))){
+      $cam_desc_err = "Please enter campaign description.";
+  } else {
+      $cam_desc = trim($_POST["cam_desc"]);
+  }
+
+  // Validate category
+  if(empty(trim($_POST["category"]))){
+      $category_err = "Please choose category.";
+  } else {
+      $category = trim($_POST["category"]);
+  }
+
+  // Validate owner_name
+  if(empty(trim($_POST["owner_name"]))){
+      $owner_name_err = "Please enter campaign owner.";
+  } else {
+      $owner_name = trim($_POST["owner_name"]);
+  }
+
+  // Validate owner_desc
+  if(empty(trim($_POST["owner_desc"]))){
+      $owner_desc_err = "Please enter owner description.";
+  } else {
+      $owner_desc = trim($_POST["owner_desc"]);
+  }
+
+//$cam_image
+
+
+$cam_image = $_SESSION['path'];
+
+
+  //owner_image
+  $owner_image = $_SESSION['path1'];
+
+  //URL
+  $URL = trim($_POST["URL"]);
+
+    // Check input errors before inserting in database
+    if(empty($cam_name_err) && empty($cam_desc_err) && empty($category_err) && empty($owner_name_err) && empty($owner_desc_err)){
+
+        // Prepare an insert statement
+        $sql = "INSERT INTO approval (cam_name, cam_desc, category, cam_image, owner_name, owner_desc, owner_image, URL) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "ssssssss", $param_cam_name, $param_cam_desc, $param_category, $param_cam_image, $param_owner_name, $param_owner_desc, $param_owner_image, $param_URL);
+
+            // Set parameters
+            $param_cam_name = $cam_name;
+            $param_cam_desc = $cam_desc;
+            $param_category = $category;
+            $param_cam_image = $cam_image;
+            $param_owner_name = $owner_name;
+            $param_owner_desc = $owner_desc;
+            $param_owner_image = $owner_image;
+            $param_URL = $URL;
+
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+
+  //Alert and Redirect to login page
+  echo "<script>alert('Thank you. This form has been sent to admin. 1 to 2 business day to approve it.');window.location='index.php';</script>";
+
+
+
+                //header("location: login.php");
+            } else{
+
+                echo "Oops! Something went wrong. Please try again later2.";
+
+            }
+
+            // Close statement
+            mysqli_stmt_close($stmt);
+        }
+    }
+
+    // Close connection
+    mysqli_close($link);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Issue Breakers - Login</title>
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
-    <link rel="stylesheet" href="css/all.min.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/templatemo-style.css" />
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="row tm-brand-row">
-        <div class="col-lg-4 col-10">
-          <div class="tm-brand-container">
-            <div class="tm-brand-images">
-              <a href="index.php">
-              <img src="img/issuebreakers.jpg" alt="issuebreakers">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Campaigns</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body{ font: 14px sans-serif; }
+        .wrapper{ width: 350px; padding: 20px; }
+    </style>
+</head>
+<body>
+  <div class="container">
+  <div class="jumbotron">
+    <div class="wrapper">
+        <h2>Create campaigns</h2>
+        <p>Please fill this form to create a campaign.</p>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="form-group">
+                <label>Campaign name</label>
+                <input type="text" name="cam_name" class="form-control <?php echo (!empty($cam_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $cam_name; ?>">
+                <span class="invalid-feedback"><?php echo $cam_name_err; ?></span>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-8 col-2 tm-nav-col">
-          <div class="tm-nav">
-            <nav class="navbar navbar-expand-lg navbar-light tm-navbar">
-              <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto mr-0">
-                  <li class="nav-item">
-                    <div class="tm-nav-link-highlight"></div>
-                    <a class="nav-link" href="index.php">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <div class="tm-nav-link-highlight"></div>
-                    <a class="nav-link" href="about.html"> About</a>
-                  </li>
-                  <li class="nav-item">
-                    <div class="tm-nav-link-highlight"></div>
-                    <a class="nav-link" href="campaigns.php">Campaigns</a>
-                  </li>
-                  <li class="nav-item active">
-                    <div class="tm-nav-link-highlight"></div>
-                    <a class="nav-link" href="login.php">Login <span class="sr-only">(current)</span></a>
-                  </li>
-                </ul>
-              </div>
-            </nav>
-          </div>
-        </div>
-      </div>
+            <div class="form-group">
+                <label>Campaign Description</label>
+                <textarea name="cam_desc" rows="8" cols="80" class="form-control <?php echo (!empty($cam_desc_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $cam_desc; ?>"></textarea>
+                <span class="invalid-feedback"><?php echo $cam_desc_err; ?></span>
 
-      <div class="row tm-welcome-row">
-        <div class="col-12 tm-page-cols-container">
-          <div class="tm-page-col-left tm-welcome-box tm-bg-gradient">
-            <p class="tm-welcome-text">
-              <em
-                >"Gradient CSS BG #A0C0C0 to #669999 and right side is a
-                parallax image of our group."</em
-              >
-            </p>
-          </div>
-          <div class="tm-page-col-right">
-            <div
-              class="tm-welcome-parallax"
-              data-parallax="scroll"
-              data-image-src="img/contact-us.jpg"
-            ></div>
-          </div>
-        </div>
-      </div>
-
-      <section class="row tm-pt-4 tm-mb-3">
-        <div class="col-12 tm-page-cols-container">
-          <div class="tm-page-col-left">
-            <div class="tm-contact-container tm-mb-6">
-              <div class="tm-address-container">
-                <h2 class="tm-text-secondary tm-mb-6">Address</h2>
-                <address>
-                  <p>
-                    110-330 Sed ultricies purus nec<br />
-                    Suscipit vulputate<br />
-                    Fusce a massa 10550
-                  </p>
-                </address>
-              </div>
             </div>
-          </div>
-          <div class="tm-page-col-right tm-form-container">
-            <h2 class="tm-text-secondary mb-4">Create campaigns</h2>
-            <form
-              action="contact.html"
-              method="POST"
-              id="tm_contact_form"
-              enctype="multipart/form-data">
-              <div class="form-group">
-                <input
-                  type="text"
-                  id="contact_name"
-                  name="contact_name"
-                  class="form-control rounded-0 border-top-0 border-right-0 border-left-0"
-                  placeholder="Your Name"
-                  required="" />
-              </div>
-              <div class="form-group-2">
-                <input
-                  type="email"
-                  id="contact_email"
-                  name="contact_email"
-                  class="form-control rounded-0 border-top-0 border-right-0 border-left-0"
-                  placeholder="Your Email"
-                  required="" />
-              </div>
-              <div class="form-group-2 input-field">
-                <select class="tm-select" name="occupation" id="occupation">
-                  <option value="select">Your Occupation</option>
-                  <option value="CE">Chief Executive</option>
-                  <option value="SA">Software Architect</option>
-                  <option value="PM">Project Manager</option>
-                  <option value="WD">Web Developer</option>
-                </select>
-              </div>
-              <div class="form-group tm-choices-container tm-text-secondary">
-                <label class="tm-w-50">
-                  <input
-                    type="radio"
-                    class="with-gap"
-                    name="gender"
-                    value="male" />
-                  <span>Male</span>
-                </label>
+            <div class="form-group">
+<dd><span class="title">Category:</span>
+                    <select name="category" class="form-control <?php echo (!empty($category_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $category; ?>">
+                      <span class="invalid-feedback"><?php echo $category_err; ?></span>
+                     <option value ="Environment">Environment</option>
+                     <option value ="Education">Education</option>
+                     <option value ="Employment">Employment</option>
+                     <option value ="Health">Health</option>
+                     <option value ="Others">Others</option>
+                 </select></dd>
 
-                <label class="tm-w-50">
-                  <input
-                    type="radio"
-                    class="with-gap"
-                    name="gender"
-                    value="female" />
-                  <span>Female</span>
-                </label>
-              </div>
-
-              <div class="tm-mb-5">
-                <textarea
-                  rows="10"
-                  id="contact_message"
-                  name="contact_message"
-                  class="form-control rounded-0"
-                  placeholder="Your Message"
-                  required=""></textarea>
-              </div>
-
-              <div class="tm-mb-4 tm-choices-container tm-text-secondary">
-                <label class="tm-w-50">
-                  <input
-                    type="checkbox"
-                    name="ckb[]"
-                    class="filled-in"
-                    value="1" />
-                  <span>Check Box 1</span>
-                </label>
-                <label class="tm-w-50">
-                  <input
-                    type="checkbox"
-                    name="ckb[]"
-                    class="filled-in"
-                    value="2" />
-                  <span>Check Box 2</span>
-                </label>
-              </div>
-              <div class="tm-mb-6 file-upload-container">
-                <input
-                  id="file_name_label"
-                  type="text"
-                  class="border-top-0 border-right-0 border-left-0"
-                  placeholder="Your file to upload"
-                  disabled />
-                <label class="btn btn-outline btn-file">
-                  Browse...
-                  <input
-                    type="file"
-                    name="file_to_upload"
-                    style="display: none;" />
-                </label>
-              </div>
-
-              <div class="">
-                <button
-                  type="submit"
-                  class="btn btn-secondary tm-btn-submit rounded-0">
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
+               </div>
 
 
-      <!-- Page footer -->
-      <footer class="row tm-page-footer">
-        <p class="col-12 tm-copyright-text mb-0">
-            Copyright &copy; 2021 IssueBreakers
-        </p>
-      </footer>
+
+
+<div class="form-group">
+  <label>Campaign Image</label>
+  <input type="file" name="cam_image" id="file" />
+  <br/>
+  <span id="uploaded_image"></span>
+  <p class="help-block">Upload campaign image here.</p>
+</div>
+
+
+
+
+            <div class="form-group">
+                <label>Owner name</label>
+                <input type="text" name="owner_name" class="form-control <?php echo (!empty($owner_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $owner_name; ?>">
+                <span class="invalid-feedback"><?php echo $owner_name_err; ?></span>
+            </div>
+            <div class="form-group">
+                <label>Owner Description</label>
+                <textarea name="owner_desc" rows="8" cols="80" class="form-control <?php echo (!empty($owner_desc_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $owner_desc; ?>"></textarea>
+                <span class="invalid-feedback"><?php echo $owner_desc_err; ?></span>
+
+            </div>
+
+
+<div class="form-group">
+  <label>Owner Image</label>
+  <input type="file" name="owner_image" id="file" />
+  <br/>
+  <span id="uploaded_image"></span>
+  <p class="help-block">Upload campaign image here.</p>
+</div>
+
+            <div class="form-group">
+                <label>URL</label>
+                <input type="text" name="URL" class="form-control " value="<?php echo $URL; ?>">
+
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Submit">
+
+            </div>
+
+
+        </form>
+
     </div>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/parallax.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script>
-      $(document).on("change", ":file", function() {
-        var input = $(this),
-          numFiles = input.get(0).files ? input.get(0).files.length : 1,
-          label = input
-            .val()
-            .replace(/\\/g, "/")
-            .replace(/.*\//, "");
-        input.trigger("fileselect", [numFiles, label]);
-      });
-
-      $(document).ready(function() {
-        $(":file").on("fileselect", function(event, numFiles, label) {
-          $("#file_name_label").attr("placeholder", label);
-        });
-      });
-    </script>
-  </body>
+    </div>
+      </div>
+</body>
 </html>
+
+<script>
+$(document).ready(function(){
+ $(document).on('change', '#file', function(){
+  var name = document.getElementById("file").files[0].name;
+  var form_data = new FormData();
+  var ext = name.split('.').pop().toLowerCase();
+  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1)
+  {
+   alert("Invalid Image File");
+  }
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("file").files[0]);
+  var f = document.getElementById("file").files[0];
+  var fsize = f.size||f.fileSize;
+  if(fsize > 2000000)
+  {
+   alert("Image File Size is very big");
+  }
+  else
+  {
+  form_data.append("file", document.getElementById('file').files[0]);
+   $.ajax({
+    url:"upload1.php",
+    method:"POST",
+    data: form_data,
+    contentType: false,
+    cache: false,
+    processData: false,
+    beforeSend:function(){
+     $('#uploaded_image').html("<label class='text-success'>Image Uploading...</label>");
+    },
+    success:function(data)
+    {
+     $('#uploaded_image').html(data);
+    }
+   });
+  }
+ });
+});
+</script>

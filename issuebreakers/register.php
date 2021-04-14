@@ -3,8 +3,8 @@
 require_once "config.php";
 
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
+$username = $password = $confirm_password = $name = $email = $company = $occupation = $message = "";
+$username_err = $password_err = $confirm_password_err = $name_err = $email_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -62,24 +62,55 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
 
+  // Validate name
+  if(empty(trim($_POST["name"]))){
+      $name_err = "Please enter your name.";
+  } else {
+      $name = trim($_POST["name"]);
+  }
+
+  // Validate email
+  if(empty(trim($_POST["email"]))){
+      $email_err = "Please enter a email.";
+  } else {
+      $email = trim($_POST["email"]);
+  }
+
+  //company
+  $company = trim($_POST["company"]);
+
+  //occupation
+  $occupation = trim($_POST["occupation"]);
+
+  //message
+  $message = trim($_POST["message"]);
+
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($name_err) && empty($email_err)){
 
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $sql = "INSERT INTO users (username, password, name, email,company, occupation, message) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
+            mysqli_stmt_bind_param($stmt, "sssssss", $param_username, $param_password, $param_name, $param_email, $param_company, $param_occupation, $param_message);
 
             // Set parameters
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+            $param_name = $name;
+            $param_email = $email;
+            $param_company = $company;
+            $param_occupation = $occupation;
+            $param_message = $message;
 
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
-                // Redirect to login page
-                header("location: login.php");
+
+  //Alert and Redirect to login page
+  echo "<script>alert('Successfully completed!');window.location='login.php';</script>";
+
+                //header("location: login.php");
             } else{
 
                 echo "Oops! Something went wrong. Please try again later2.";
@@ -126,6 +157,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <label>Confirm Password</label>
                 <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
                 <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
+                <span class="invalid-feedback"><?php echo $name_err; ?></span>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" name="email" class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $email; ?>">
+                <span class="invalid-feedback"><?php echo $email_err; ?></span>
+            </div>
+            <div class="form-group">
+                <label>Company</label>
+                <input type="text" name="company" class="form-control " value="<?php echo $company; ?>">
+
+            </div>
+            <div class="form-group">
+                <label>Occupation</label>
+                <input type="text" name="occupation" class="form-control " value="<?php echo $occupation; ?>">
+
+            </div>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea name="message" rows="8" cols="80" class="form-control " value="<?php echo $message; ?>"></textarea>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
