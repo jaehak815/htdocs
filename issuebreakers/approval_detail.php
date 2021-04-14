@@ -43,6 +43,7 @@ $paragraph1 = $row["owner_desc"];
     <h1 class="display-4"><em><?php echo $row["cam_name"]; ?></em></h1><br>
     <p class="lead"><?php echo nl2br($paragraph); ?></p>
     <hr class="my-4">
+      <p><img src="<?php echo $row["owner_image"];  ?>" class="rounded mx-auto d-block" alt="Responsive image" ></p>
     <h2 class="display-4"><em><?php echo "Sponsor: ".$row["owner_name"]; ?></em></h2><br>
     <p><?php echo nl2br($paragraph1); ?></p>
     <p><?php echo "Website: ".$row["URL"]; ?></p>

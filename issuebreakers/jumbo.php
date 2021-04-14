@@ -108,13 +108,13 @@ $paragraph1 = $row["owner_desc"];
 </a>
 
 <a
-        href="http://twitter.com/share?text=An%20intersting%20blog&url=http://www.issuebreakers.com"
+        href="http://twitter.com/share?text=IssueBreakers&url=http://www.issuebreakers.com"
         target="_blank"
         title="Click to post to Twitter"><img src="img/twitter.png">
 </a>
 
 <a
-rel="nofollow" href="http://www.linkedin.com/shareArticle?mini=true&url="> <img src="img/linkedin.png">
+rel="nofollow" href="http://www.linkedin.com/shareArticle?mini=true&url=http://www.issuebreakers.com"> <img src="img/linkedin.png">
 </a>
 
 <a

@@ -14,7 +14,7 @@ if (!isset($_SESSION["username"])) {
 require_once "config.php";
 
 // Define variables and initialize with empty values
-$cam_name = $cam_desc = $category = $cam_image = $owner_name = $owner_desc = $owner_image = $URL = "";
+$cam_name = $cam_desc = $category = $cam_image = $owner_name = $owner_desc = $owner_image = $URL =  "";
 $cam_name_err = $cam_desc_err = $category_err = $owner_name_err = $owner_desc_err = "";
 
 // Processing form data when form is submitted
@@ -126,7 +126,7 @@ $cam_image = $_SESSION['path'];
                 //header("location: login.php");
             } else{
 
-                echo "Oops! Something went wrong. Please try again later2.";
+                echo "Oops! Something went wrong. Please try again later2.". $link->error;
 
             }
 
@@ -212,9 +212,9 @@ $cam_image = $_SESSION['path'];
 
 <div class="form-group">
   <label>Owner Image</label>
-  <input type="file" name="owner_image" id="file" />
+  <input type="file" name="owner_image" id="file1" />
   <br/>
-  <span id="uploaded_image"></span>
+  <span id="uploaded_image1"></span>
   <p class="help-block">Upload campaign image here.</p>
 </div>
 
@@ -271,6 +271,47 @@ $(document).ready(function(){
     success:function(data)
     {
      $('#uploaded_image').html(data);
+    }
+   });
+  }
+ });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+ $(document).on('change', '#file1', function(){
+  var name1 = document.getElementById("file1").files[0].name1;
+  var form_data1 = new FormData();
+  // var ext1 = name1.split('.').pop().toLowerCase();
+  // if(jQuery.inArray(ext1, ['gif','png','jpg','jpeg']) == -1)
+  // {
+  //  alert("Invalid Image File");
+  // }
+  var oFReader1 = new FileReader();
+  oFReader1.readAsDataURL(document.getElementById("file1").files[0]);
+  var f1 = document.getElementById("file1").files[0];
+  var fsize1 = f1.size||f1.fileSize;
+  if(fsize1 > 2000000)
+  {
+   alert("Image File Size is very big");
+  }
+  else
+  {
+  form_data1.append("file1", document.getElementById('file1').files[0]);
+   $.ajax({
+    url:"upload2.php",
+    method:"POST",
+    data: form_data1,
+    contentType: false,
+    cache: false,
+    processData: false,
+    beforeSend:function(){
+     $('#uploaded_image1').html("<label class='text-success'>Image Uploading...</label>");
+    },
+    success:function(data)
+    {
+     $('#uploaded_image1').html(data);
     }
    });
   }

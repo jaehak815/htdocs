@@ -18,7 +18,7 @@ session_start();
     $filepath = "img/campaign/".$name;
  echo "$filepath";
 $_SESSION['path'] = $filepath;
-$_SESSION['path1'] = $filepath;
+
 
 }
 //  if(isset($_FILES['owner_image'])){
