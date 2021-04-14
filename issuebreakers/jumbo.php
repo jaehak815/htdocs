@@ -22,7 +22,7 @@ $_SESSION['user_id'] = (int)2;
     </head>
   </head>
   <body>
-
+<?php echo htmlspecialchars($_SESSION["username"]); ?>
     <div class="tm-brand-images">
       <a href="index.php">
       <img src="img/issuebreakers.jpg" alt="issuebreakers" class="rounded mx-auto d-block">
@@ -48,7 +48,7 @@ $paragraph1 = $row["owner_desc"];
     <hr class="my-4">
     <h2 class="display-4"><em><?php echo "Sponsor: ".$row["owner_name"]; ?></em></h2><br>
     <p><?php echo nl2br($paragraph1); ?></p>
-    <p><?php echo "Website: ".$row["URL"]; ?></p>
+    <p>Website<br><?php echo $row["URL"]; ?></p>
 
 
 <!-- likes dislikes script -->
@@ -88,7 +88,7 @@ $paragraph1 = $row["owner_desc"];
     <div class="row main_box">
       <div class="col-sm-2 mr25">
         <a href="javascript:void(0)" class="btn btn-info btn-lg">
-          <span class="glyphicon glyphicon-thumbs-up" onclick="like_update('<?php echo $row['cam_id']?>')"> Like (<span id="like_loop_<?php echo $row['cam_id']?>"><?php echo $row['likes']?></span>)</span>
+          <span class="glyphicon glyphicon-thumbs-up" onclick="like_update('<?php echo $row['cam_id']?>')"> Like  (<span id="like_loop_<?php echo $row['cam_id']?>"><?php echo $row['likes']?></span>)</span>
         </a>
       </div>
       <div class="col-sm-2">
@@ -97,6 +97,33 @@ $paragraph1 = $row["owner_desc"];
         </a>
       </div>
     </div>
+    <br>
+
+
+  <h4>Share on</h4><br>
+    <a
+        href="http://www.facebook.com/sharer.php?u=http://www.issuebreakers.com"
+        target="_blank"
+        title="Click to share"><img src="img/facebook.png" >
+</a>
+
+<a
+        href="http://twitter.com/share?text=An%20intersting%20blog&url=http://www.issuebreakers.com"
+        target="_blank"
+        title="Click to post to Twitter"><img src="img/twitter.png">
+</a>
+
+<a
+rel="nofollow" href="http://www.linkedin.com/shareArticle?mini=true&url="> <img src="img/linkedin.png">
+</a>
+
+<a
+        href="https://plus.google.com/share?url=http://www.issuebreakers.com"
+        target="_blank"
+        title="Click to share"><img src="img/plus.png">
+</a>
+
+
   </div>
   </div>
 <?php  }
@@ -106,8 +133,6 @@ $paragraph1 = $row["owner_desc"];
 
 mysqli_close($conn);
  ?>
-
-
 
 
   </body>

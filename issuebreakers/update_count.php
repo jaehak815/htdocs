@@ -1,4 +1,5 @@
 <?php
+session_start();
 $con=mysqli_connect('localhost','root','111111','issuebreakers');
 $type=$_POST['type'];
 $cam_id=$_POST['cam_id'];
