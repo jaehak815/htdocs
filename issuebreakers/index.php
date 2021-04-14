@@ -108,7 +108,7 @@ error_reporting(0);
             <div
               class="tm-welcome-parallax"
               data-parallax="scroll"
-              data-image-src="img/blue-contem-girl.jpg"
+              data-image-src="img/1.jpg"
             ></div>
           </div>
         </div>
@@ -140,7 +140,7 @@ error_reporting(0);
             <div
               class="img-fluid tm-mb-4 tm-small-parallax"
               data-parallax="scroll"
-              data-image-src="img/image-1.jpg"></div>
+              data-image-src="img/2.jpg"></div>
             <div>
               <h3 class="tm-text-secondary tm-mb-4">
                 Quisque at rutrum felis
@@ -162,7 +162,7 @@ error_reporting(0);
             <div
               class="img-fluid tm-mb-4 tm-small-parallax"
               data-parallax="scroll"
-              data-image-src="img/image-2.jpg"></div>
+              data-image-src="img/3.jpg"></div>
             <div>
               <h3 class="tm-text-secondary tm-mb-4">
                 Sed ultricies tortor vitae
@@ -228,124 +228,7 @@ error_reporting(0);
                     turpis.
                   </p>
                 </div>
-                <div class="row tm-pt-5">
-                  <div class="col-md-4 text-center">
-                    <div class="tm-about-person mx-auto">
-                      <img
-                        src="img/bitcoin-girl.jpg"
-                        alt="Image"
-                        class="img-fluid tm-mb-1"
-                      />
-                      <h4 class="tm-text-secondary tm-mb-1">
-                        Catherine Theta
-                      </h4>
-                      <p class="tm-mb-2">Project Manager</p>
-                      <div class="tm-mb-3">
-                        <a
-                          href="https://facebook.com"
-                          class="tm-about-social-link"
-                        >
-                          <i class="fab fa-facebook-f tm-about-social-icon"></i>
-                        </a>
-                        <a
-                          href="https://twitter.com"
-                          class="tm-about-social-link"
-                        >
-                          <i class="fab fa-twitter tm-about-social-icon"></i>
-                        </a>
-                        <a
-                          href="https://linkedin.com"
-                          class="tm-about-social-link"
-                        >
-                          <i
-                            class="fab fa-linkedin-in tm-about-social-icon"
-                          ></i>
-                        </a>
-                      </div>
 
-                      <p>
-                        Mauris efficitur risus mi, et varius dolor sodales
-                        facilisis. Fusce sed mi tristique.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="col-md-4 text-center">
-                    <div class="tm-about-person mx-auto">
-                      <img
-                        src="img/ar-guy.jpg"
-                        alt="Image"
-                        class="img-fluid tm-mb-1"
-                      />
-                      <h4 class="tm-text-secondary tm-mb-1">New Hudson</h4>
-                      <p class="tm-mb-2">Digital Marketing</p>
-                      <div class="tm-mb-3">
-                        <a
-                          href="https://facebook.com"
-                          class="tm-about-social-link"
-                        >
-                          <i class="fab fa-facebook-f tm-about-social-icon"></i>
-                        </a>
-                        <a
-                          href="https://twitter.com"
-                          class="tm-about-social-link"
-                        >
-                          <i class="fab fa-twitter tm-about-social-icon"></i>
-                        </a>
-                        <a
-                          href="https://linkedin.com"
-                          class="tm-about-social-link"
-                        >
-                          <i
-                            class="fab fa-linkedin-in tm-about-social-icon"
-                          ></i>
-                        </a>
-                      </div>
-                      <p>
-                        Pellentesque habitant morbi tristique senectus et netus
-                        et malesuada fames.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="col-md-4 text-center">
-                    <div class="tm-about-person mx-auto">
-                      <img
-                        src="img/desk-girl.jpg"
-                        alt="Image"
-                        class="img-fluid tm-mb-1"
-                      />
-                      <h4 class="tm-text-secondary tm-mb-1">Jennifer Wall</h4>
-                      <p class="tm-mb-2">Team Leader</p>
-                      <div class="tm-mb-3">
-                        <a
-                          href="https://facebook.com"
-                          class="tm-about-social-link"
-                        >
-                          <i class="fab fa-facebook-f tm-about-social-icon"></i>
-                        </a>
-                        <a
-                          href="https://twitter.com"
-                          class="tm-about-social-link"
-                        >
-                          <i class="fab fa-twitter tm-about-social-icon"></i>
-                        </a>
-                        <a
-                          href="https://linkedin.com"
-                          class="tm-about-social-link"
-                        >
-                          <i
-                            class="fab fa-linkedin-in tm-about-social-icon"
-                          ></i>
-                        </a>
-                      </div>
-                      <p>
-                        Three social icons are placed in above circles. Sed
-                        turpis nisl, congue a arcu in.
-                      </p>
-                    </div>
-                  </div>
-                </div>
               </div>
               <div id="tab2">
                 <div class="text-content">
@@ -394,26 +277,13 @@ error_reporting(0);
         </div>
       </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- campaigns page -->
       <div class="row tm-welcome-row" id="campaigns">
         <div class="col-12">
           <div
             class="tm-welcome-parallax tm-center-child"
             data-parallax="scroll"
-            data-image-src="img/blooming-bg.jpg"
+            data-image-src="img/4.jpg"
           >
             <div class="tm-bg-black-transparent tm-parallax-overlay">
               <h2>Campaigns</h2>
@@ -470,8 +340,6 @@ error_reporting(0);
 
 <div class="tm-gallery" id="tmGallery">
   <?php
-
-
    $sql1="select * from campaigns";
    $res1=mysqli_query($link, $sql1);
   while($row1=mysqli_fetch_assoc($res1)){
@@ -481,48 +349,28 @@ error_reporting(0);
      elseif ($row1["category"] == "Employment") {$a=  "tm-gallery-item category-3";}
      elseif ($row1["category"] == "Health") {$a=  "tm-gallery-item category-4";}
       elseif ($row1["category"] == "Others") {$a=  "tm-gallery-item category-5";}
-
-
       ?>
   <div class="<?php echo $a; ?>">
-
-
-
        <figure class="effect-bubba">
        <?php
         $var = $row1["cam_id"];  ?>
-       <a  href="<?php echo "jumbo.php?cam_id=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
+       <a  href="<?php echo "cam_detail.php?cam_id=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
          class="img-fluid" ></a>
 
          <figcaption>
            <h2><?php echo $row1["cam_name"]; ?></span></h2>
-           <p>View more</p>
-           <a  href="<?php echo "jumbo.php?cam_id=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
+           <p><?php echo $row1["likes"]; ?><br>People love it!</p>
+           <a  href="<?php echo "cam_detail.php?cam_id=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
              class="img-fluid" ></a>
          </figcaption>
-    </figure>
-
-
-
-
-</div>
-<?php
-} ?>
-
+          </figure>
+          </div>
+              <?php
+                  } ?>
             </div>
           </div>
         </div>
       </section>
-
-
-
-
-
-
-
-
-
-
 
       <!-- Page footer -->
       <footer class="row tm-page-footer">
