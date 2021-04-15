@@ -17,8 +17,11 @@ echo $_SESSION['id'] ;
       <link rel="stylesheet" href="css/all.min.css" />
       <link rel="stylesheet" href="css/bootstrap.min.css" />
       <link rel="stylesheet" href="css/templatemo-style.css" />
-      	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="css/like.css">
+
     </head>
   </head>
   <body>
@@ -27,7 +30,7 @@ echo $_SESSION['id'] ;
       <a href="index.php">
       <img src="img/issuebreakers.jpg" alt="issuebreakers" class="rounded mx-auto d-block">
       </a>
-    </div>
+    </div><br>
 <?php
     $sql = "SELECT * FROM campaigns where cam_id=".$_GET['cam_id'];
 $result = mysqli_query($link, $sql);
@@ -48,97 +51,115 @@ $paragraph1 = $row["owner_desc"];
     <hr class="my-4">
     <p><img src="<?php echo $row["owner_image"];  ?>" class="img-fluid" alt="Responsive image" ></p>
     <h2 class="display-4"><em><?php echo "Sponsor: ".$row["owner_name"]; ?></em></h2><br>
-    <p><?php echo nl2br($paragraph1); ?></p>
-    <hr class="my-4">
+    <p><?php echo nl2br($paragraph1); ?></p><br>
+
     <h4 class="display-4">Website<br>
     <p><a href="<?php echo $row["URL"]; ?>"><?php echo $row["URL"]; ?></a></h4><br></p>
+      <hr class="my-4">
 
-<!-- likes dislikes script -->
-    <script>
-    function like_update(cam_id){
-      jQuery.ajax({
-        url:'update_count.php',
-        type:'post',
-        data:'type=likes&cam_id='+cam_id,
-        success:function(result){
-          var cur_count=jQuery('#like_loop_'+cam_id).html();
-          cur_count++;
-          jQuery('#like_loop_'+cam_id).html(cur_count);
 
-        }
-      });
-    }
+    <!-- like dislike button -->
 
-    function dislike_update(cam_id){
-      jQuery.ajax({
-        url:'update_count.php',
-        type:'post',
-        data:'type=dislikes&cam_id='+cam_id,
-        success:function(result){
-          var cur_count=jQuery('#dislike_loop_'+cam_id).html();
-          <?php if(!isset($_SESSION['username'])){
-            echo "you need to login";
-          }  ?>
-          cur_count++;
-          jQuery('#dislike_loop_'+cam_id).html(cur_count);
+  <!-- display campaigns gotten from the database  -->
 
-        }
-      });
-    }
-    </script>
+          <div style="padding: 2px; margin-top: 5px;">
+          <?php
+            // determine if user has already liked this post
+            $results = mysqli_query($link, "SELECT * FROM likes WHERE userid=1 AND camid=".$row['cam_id']."");
 
 
 
-<!-- like dislike button -->
-    <div class="row main_box">
-      <div class="col-sm-2 mr25">
-        <a href="javascript:void(0)" class="btn btn-info btn-lg">
-          <span class="glyphicon glyphicon-thumbs-up" onclick="like_update('<?php echo $row['cam_id']?>')"> Like  (<span id="like_loop_<?php echo $row['cam_id']?>"><?php echo $row['likes']?></span>)</span>
+            if (mysqli_num_rows($results) == 1 ): ?>
+              <!-- user already likes post -->
+              <span class="unlike fa fa-thumbs-up" data-id="<?php echo $row['cam_id']; ?>"></span>
+              <span class="like hide fa fa-thumbs-o-up" data-id="<?php echo $row['cam_id']; ?>"></span>
+            <?php else: ?>
+              <!-- user has not yet liked post -->
+              <span class="like fa fa-thumbs-o-up" data-id="<?php echo $row['cam_id']; ?>"></span>
+              <span class="unlike hide fa fa-thumbs-up" data-id="<?php echo $row['cam_id']; ?>"></span>
+            <?php endif ?>
+
+            <span class="likes_count"><?php echo $row['likes']; ?> likes</span>
+          </div>
+
+        <!-- likes dislikes script -->
+        <script src="js/jquery.min.js"></script>
+        <script>
+          $(document).ready(function(){
+            // when the user clicks on like
+            $('.like').on('click', function(){
+              var camid = $(this).data('id');
+                  $post = $(this);
+
+              $.ajax({
+                url: 'update_count.php',
+                type: 'post',
+                data: {
+                  'liked': 1,
+                  'camid': camid
+                },
+                success: function(response){
+                  $post.parent().find('span.likes_count').text(response + " likes");
+                  $post.addClass('hide');
+                  $post.siblings().removeClass('hide');
+                }
+              });
+            });
+
+            // when the user clicks on unlike
+            $('.unlike').on('click', function(){
+              var camid = $(this).data('id');
+                $post = $(this);
+
+              $.ajax({
+                url: 'update_count.php',
+                type: 'post',
+                data: {
+                  'unliked': 1,
+                  'camid': camid
+                },
+                success: function(response){
+                  $post.parent().find('span.likes_count').text(response + " likes");
+                  $post.addClass('hide');
+                  $post.siblings().removeClass('hide');
+                }
+              });
+            });
+          });
+        </script>
+        <br>
+        <h4>Share on</h4><br>
+          <a
+              href="http://www.facebook.com/sharer.php?u=http://www.issuebreakers.com"
+              target="_blank"
+              title="Click to share"><img src="img/facebook.png" >
         </a>
-      </div>
-      <div class="col-sm-2">
-        <a href="javascript:void(0)" class="btn btn-info btn-lg">
-          <span class="glyphicon glyphicon-thumbs-down" onclick="dislike_update('<?php echo $row['cam_id']?>')"> Dislike (<span id="dislike_loop_<?php echo $row['cam_id']?>"><?php echo $row['dislikes']?></span>)</span>
+
+        <a
+              href="http://twitter.com/share?text=IssueBreakers&url=http://www.issuebreakers.com"
+              target="_blank"
+              title="Click to post to Twitter"><img src="img/twitter.png">
         </a>
-      </div>
-    </div>
-    <br>
+
+        <a
+        rel="nofollow" href="http://www.linkedin.com/shareArticle?mini=true&url=http://www.issuebreakers.com"> <img src="img/linkedin.png">
+        </a>
+
+        <a
+              href="https://plus.google.com/share?url=http://www.issuebreakers.com"
+              target="_blank"
+              title="Click to share"><img src="img/plus.png">
+        </a>
 
 
-  <h4>Share on</h4><br>
-    <a
-        href="http://www.facebook.com/sharer.php?u=http://www.issuebreakers.com"
-        target="_blank"
-        title="Click to share"><img src="img/facebook.png" >
-</a>
+        </div>
+        </div>
+        <?php  }
+        } else {
+        echo "0 results";
+        }
 
-<a
-        href="http://twitter.com/share?text=IssueBreakers&url=http://www.issuebreakers.com"
-        target="_blank"
-        title="Click to post to Twitter"><img src="img/twitter.png">
-</a>
-
-<a
-rel="nofollow" href="http://www.linkedin.com/shareArticle?mini=true&url=http://www.issuebreakers.com"> <img src="img/linkedin.png">
-</a>
-
-<a
-        href="https://plus.google.com/share?url=http://www.issuebreakers.com"
-        target="_blank"
-        title="Click to share"><img src="img/plus.png">
-</a>
-
-
-  </div>
-  </div>
-<?php  }
-} else {
-  echo "0 results";
-}
-
-mysqli_close($conn);
- ?>
-
-
+        mysqli_close($conn);
+        ?>
   </body>
 </html>
