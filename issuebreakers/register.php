@@ -108,9 +108,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if(mysqli_stmt_execute($stmt)){
 
   //Alert and Redirect to login page
-  echo "<script>alert('Successfully completed!');window.location='login.php';</script>";
+  echo "<script>alert('Successfully completed!');window.location='index.php';</script>";
 
-                //header("location: login.php");
+                //header("location: index.php");
             } else{
 
                 echo "Oops! Something went wrong. Please try again later2.";
@@ -190,7 +190,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <input type="submit" class="btn btn-primary" value="Submit">
 
             </div>
-            <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>
     </div>
     </div>

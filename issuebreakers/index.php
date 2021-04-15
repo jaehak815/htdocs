@@ -6,8 +6,84 @@ session_start();
 require "config.php";
 error_reporting(0);
 
+// Define variables and initialize with empty values
+$username = $password = "";
+$username_err = $password_err = $login_err = "";
 
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    // Check if username is empty
+    if(empty(trim($_POST["username"]))){
+        $username_err = "Please enter username.";
+    } else{
+        $username = trim($_POST["username"]);
+    }
+
+    // Check if password is empty
+    if(empty(trim($_POST["password"]))){
+        $password_err = "Please enter your password.";
+    } else{
+        $password = trim($_POST["password"]);
+    }
+
+    // Validate credentials
+    if(empty($username_err) && empty($password_err)){
+        // Prepare a select statement
+        $sql = "SELECT id, username, password FROM users WHERE username = ?";
+
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_username);
+
+            // Set parameters
+            $param_username = $username;
+
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                // Store result
+                mysqli_stmt_store_result($stmt);
+
+                // Check if username exists, if yes then verify password
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    // Bind result variables
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
+                    if(mysqli_stmt_fetch($stmt)){
+                        if(password_verify($password, $hashed_password)){
+                            // Password is correct, so start a new session
+                            session_start();
+
+                            // Store data in session variables
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["id"] = $id;
+                            $_SESSION["username"] = $username;
+
+                            // Redirect user to index page
+                            header("location: index.php");
+                        } else{
+                            // Password is not valid, display a generic error message
+                            $login_err = "Invalid username or password.";
+                        }
+                    }
+                } else{
+                    // Username doesn't exist, display a generic error message
+                    $login_err = "Invalid username or password.";
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+
+            // Close statement
+            //mysqli_stmt_close($stmt);
+        }
+    }
+
+    // Close connection
+    //mysqli_close($link);
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,6 +95,7 @@ error_reporting(0);
     <link rel="stylesheet" href="css/all.min.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/templatemo-style.css" />
+    <link rel="stylesheet" href="css/popup.css" />
   </head>
   <body>
 
@@ -51,10 +128,13 @@ error_reporting(0);
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarNav">
+
                 <ul class="navbar-nav ml-auto mr-0">
 
                   <div class="tm-nav-link-highlight"></div>
-                  <?php echo htmlspecialchars($_SESSION["username"]); ?>
+                  <div class="nav-link">
+                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
+                  </div>
 
                     <a class="nav-link" href="#"
                       >Home <span class="sr-only">(current)</span></a
@@ -74,10 +154,59 @@ error_reporting(0);
                 <?php if($_SESSION['username']){
                 ?> <a class="nav-link" href="logout.php" />Logout</a> &nbsp;
                <?php } else { ?>
-                 <a class="nav-link" href="login.php" > Login </a>
-               <?php } ?>
+                 <a class="nav-link" onclick="openForm()"> Login </a>
+                <?php }
+                ?>
+                </li>
+<!-- login form -->
 
-                  </li>
+
+
+<div class="form-popup" id="myForm">
+    <!-- <div class="wrapper"> -->
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-container">
+        <h2>Login</h2>
+        <p>Please fill in your credentials to login.</p>
+
+        <?php
+        if(!empty($login_err)){
+            echo '<div class="alert alert-danger">' . $login_err . '</div>';
+        }
+        ?>
+
+
+            <div class="form-group" style="width: 270px;">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>" required>
+                <span class="invalid-feedback"><?php echo $username_err; ?></span>
+            </div>
+            <div class="form-group" style="width: 270px;">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" required>
+                <span class="invalid-feedback"><?php echo $password_err; ?></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Login">
+                  <a href="register.php" class="btn btn-outline-info">Register</a>
+                  <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
+
+            </div>
+
+
+        </form>
+    <!-- </div> -->
+</div>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+
 
                   <li class="nav-item">
                     <div class="tm-nav-link-highlight"></div>
@@ -100,8 +229,7 @@ error_reporting(0);
         <div class="col-12 tm-page-cols-container">
           <div class="tm-page-col-left tm-welcome-box tm-bg-primary">
             <p class="tm-welcome-text">
-              <em>"Hello, this is a clean layout. left side is the text and right
-                side is a parallax image."</em>
+              <em>"Make your own campaigns" <br> "Make your goals happen"</em>
             </p>
           </div>
           <div class="tm-page-col-right">
@@ -118,17 +246,14 @@ error_reporting(0);
         <div class="col-12 tm-page-cols-container">
           <div class="tm-page-col-right">
             <h2 class="tm-text-secondary tm-mb-5">
-              Nunc tristique velit ut semper
+              Issue Breakers
             </h2>
             <p class="tm-mb-6">
-              Homepage main photo is provided by <strong>Moose Photos</strong> from <strong>Pexels</strong>. Next Level CSS Template is brought to you by Template Mo website. You can feel free to adapt it for your websites. No need to put a footer credit link. Please kindly spread a word about us. Thank you. If you have any question, feel free to contact us on Facebook page.
+            Issue Breakers Platform is an online environment where Public, Private and Third Sector Stakeholders can upload social and environmental challenges and attend campaigns through supporting.
 
             </p>
             <p class="mb-0">
-           	  Nullam nec dictum dolor. Sed ultricies purus nec suscipit vulputate. Fusce a massa eu orci
-              vulputate varius. Praesent id felis ac erat elementum condimentum. Pellentesque a
-              libero vitae nisi vestibulum tempor vitae vitae nulla. Praesent ut
-              eleifend ligula, nec pretium erat.
+           	  It is the Social Awareness Web Application whose motto is to provide Advanced Consulting Services. This Web application gives users a platform to raise awareness about social causes and bring about the change in the world that they wish to see. The main vision of the company is to raise awareness of social issues and provide users a platform where they can advertise for small businesses.
             </p>
           </div>
         </div>
@@ -143,18 +268,16 @@ error_reporting(0);
               data-image-src="img/2.jpg"></div>
             <div>
               <h3 class="tm-text-secondary tm-mb-4">
-                Quisque at rutrum felis
+                Objectives
               </h3>
               <p class="tm-mb-5">
-                Photo by CoWomen from Pexels. Morbi sollicitudin nibh eu
-                dignissim mollis. Etiam turpis tortor, ultricies sit amet
-                placerat suscipit, auctor eu diam.
+              Issuebreakers is a platform aiming at creating a campaigns where actual social challenges can meet powerful and innovative activities.
               </p>
               <ul class="tm-list-plus">
-                <li>Vestibulum finibus consectetur nulla</li>
-                <li>Eget imperdiet eros interdum sit amet</li>
-                <li>Sed a lacinia lorem, sed luctus enim</li>
-                <li>2 small images has a parallax effect</li>
+                <li>Provide a platform to the users to raise their issues for social awareness</li>
+                <li>To satisfy the client’s expectations</li>
+                <li>Bring a change that they want to see in the future</li>
+                <li>Win Win solution for campaigns and sponsors</li>
               </ul>
             </div>
           </div>
@@ -165,15 +288,13 @@ error_reporting(0);
               data-image-src="img/3.jpg"></div>
             <div>
               <h3 class="tm-text-secondary tm-mb-4">
-                Sed ultricies tortor vitae
+                Campaign innovation
               </h3>
               <p class="tm-section-2-text">
-                Photo by <strong>CoWomen</strong> from <strong>Pexels</strong>. Quisque tortor justo, pharetra in
-                eros sed, accumsan dapibus dolor. In luctus sed ante a
-                tristique.
+              Campaign innovation is a constantly growing movement using technology, recognised by all of them as an important way to tackle the increasingly-complex social and environmental challenges faced by our societies.
               </p>
               <p>
-                You cannot re-distribute our template on your website for download. Ut ornare pulvinar lorem a elementum. Cras sollicitudin ante velit, eget facilisis sem viverra nex. Etiam quis mattis urna.
+                Societies across world have faced severe challenges over the past decade. It includes financial crisis, environment, poor education and others. Offering platform to everyone will bring solution to reduce current challenges.
               </p>
             </div>
           </div>
@@ -183,28 +304,7 @@ error_reporting(0);
 
       <section class="row tm-pt-4 tm-pb-6" id="about">
         <div class="col-12 tm-tabs-container tm-page-cols-container">
-          <div class="tm-page-col-left tm-tab-links">
-            <ul class="tabs clearfix" data-tabgroup="first-tab-group">
-              <li>
-                <a href="#tab1" class="active">
-                  <div class="tm-tab-icon"></div>
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#tab2" class="">
-                  <div class="tm-tab-icon"></div>
-                  Vision and Mission
-                </a>
-              </li>
-              <li>
-                <a href="#tab3" class="">
-                  <div class="tm-tab-icon"></div>
-                  Our History
-                </a>
-              </li>
-            </ul>
-          </div>
+
           <div class="tm-page-col-right tm-tab-contents">
             <div id="first-tab-group" class="tabgroup">
               <div id="tab1">
@@ -213,61 +313,18 @@ error_reporting(0);
                     About Us
                   </h3>
                   <p class="tm-mb-5">
-                    Above pink girl photo is provided by Moose Photos from
-                    Pexels. This is a tab content area. There are 3 tabs at the
-                    left side. Curabitur porttitor metus nisl. Nullam nec dictum
-                    dolor. Sed ultricies purus nec suscipit vulputate. Fusce a
-                    massa eu orci vulputate varius. Quisque quis ullamcorper
-                    sapien. Integer eu luctus nulla, vel viverra odio.
+                    Our “Cyberpunk” helps to provide a platform for small business owners to promote their business and get leads. It also helps clients to participate in the causes which are close to their heart.
                   </p>
                   <p class="tm-mb-5">
-                    Praesent id felis ac erat elementum condimentum.
-                    Pellentesque a libero vitae nisi vestibulum tempor vitae
-                    vitae nulla. Praesent ut eleifend ligula, nec pretium erat.
-                    Suspendisse nec magna id massa sollicitudin aliquam eget ut
-                    turpis.
-                  </p>
-                </div>
-
-              </div>
-              <div id="tab2">
-                <div class="text-content">
-                  <h3 class="tm-text-secondary tm-mb-5">Vision and Mission</h3>
-                  <p class="tm-mb-5">
-                    Nam consequat, leo vitae aliquet dignissim, leo est laoreet
-                    nibh, nec dictum libero justo vitae dolor. Donec tristique
-                    eros at nisi elementum efficitur. Proin ornare feugiat ex
-                    placerat pellenteqsue. Nulla convallis est volutpat ex
-                    ultrices facilisis.
-                  </p>
-                  <p class="tm-mb-5">
-                    Etiam egestas metus vitae est interdum, in eleifend nunc
-                    volutpat. Aliquam molestie ipsum quis suscipit lacinia.
-                    Mauris turpis libero, iaculis non dictum ac, ornare a massa.
-                    Duis id lorem purus. Fusce viverra ullamcorper metus.
-                    Curabitur puvinar suscipit sapien ac blandit. Aliquam vel
-                    pulvinar purus, sit amet luctus urna.
-                  </p>
-                </div>
-              </div>
-
-              <div id="tab3">
-                <div class="text-content">
-                  <h3 class="tm-text-secondary tm-mb-5">Our History</h3>
-                  <p class="tm-mb-5">
-                    Mauris turpis libero, iaculis non dictum ac, ornare a massa.
-                    Duis id lorem purus. Fusce viverra ullamcorper metus.
-                    Curabitur puvinar suscipit sapien ac blandit. Aliquam vel
-                    pulvinar purus, sit amet luctus urna. Nulla convallis est
-                    volutpat ex ultrices facilisis.
-                  </p>
-                  <p class="tm-mb-5">
-                    Etiam egestas metus vitae est interdum, in eleifend nunc
-                    volutpat. Aliquam molestie ipsum quis suscipit lacinia. Nam
-                    consequat, leo vitae aliquet dignissim, leo est laoreet
-                    nibh, nec dictum libero justo vitae dolor. Donec tristique
-                    eros at nisi elementum efficitur. Proin ornare feugiat ex
-                    placerat pellenteqsue.
+                Team member<br>
+                Rahul Abhawani (Project Manager, Data Analyst)<br>
+                Umamaheshwar Tathari (Network Designer)<br>
+                Monika Kapoor (Tester)<br>
+                Prabin Adhikari (Network Designer)<br>
+                Rohit Mann (Front end designer)<br>
+                Jaehak Kim (Database developer)<br>
+                Rashmi Tamang (Data Analyst)<br>
+                Sandeep Kaur (Database developer)<br>
                   </p>
                 </div>
 
