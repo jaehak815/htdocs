@@ -1,9 +1,9 @@
 <?php
 session_start();
-
+$_SESSION['user_id'] = (int)2;
  include("config.php");
  error_reporting(0);
-echo $_SESSION['id'] ;
+
       ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -41,17 +41,15 @@ $paragraph1 = $row["owner_desc"];
   ?>
 
 <div class="container">
-  <div class="jumbotron">
-    <p><img src="<?php echo $row["cam_image"];  ?>" class="img-fluid"  alt="Responsive image" ></p>
+  <div class="jumbotron" style="width: 1064px;">
+    <p><img src="<?php echo $row["cam_image"];  ?>" class="rounded mx-auto d-block" alt="Responsive image" ></p>
     <h1 class="display-4"><em><?php echo $row["cam_name"]; ?></em></h1><br>
     <p class="lead"><?php echo nl2br($paragraph); ?></p>
     <hr class="my-4">
-    <p><img src="<?php echo $row["owner_image"];  ?>" class="img-fluid" alt="Responsive image" ></p>
     <h2 class="display-4"><em><?php echo "Sponsor: ".$row["owner_name"]; ?></em></h2><br>
     <p><?php echo nl2br($paragraph1); ?></p>
-    <hr class="my-4">
-    <h4 class="display-4">Website<br>
-    <p><a href="<?php echo $row["URL"]; ?>"><?php echo $row["URL"]; ?></a></h4><br></p>
+    <p>Website<br><?php echo $row["URL"]; ?></p>
+
 
 <!-- likes dislikes script -->
     <script>
@@ -76,9 +74,6 @@ $paragraph1 = $row["owner_desc"];
         data:'type=dislikes&cam_id='+cam_id,
         success:function(result){
           var cur_count=jQuery('#dislike_loop_'+cam_id).html();
-          <?php if(!isset($_SESSION['username'])){
-            echo "you need to login";
-          }  ?>
           cur_count++;
           jQuery('#dislike_loop_'+cam_id).html(cur_count);
 
