@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION["username"])) {
 //If user did not login, will not be setting the session, it will jump back to the login page. Otherwise, continue to execute down HTML code
     echo "<script>alert('Please login!');
-    window.location.href = 'login.php';
+    window.location.href = 'index.php';
 </script>";
 
 }
@@ -14,7 +14,7 @@ if (!isset($_SESSION["username"])) {
 require_once "config.php";
 
 // Define variables and initialize with empty values
-$cam_name = $cam_desc = $category = $cam_image = $owner_name = $owner_desc = $owner_image = $URL =  "";
+$cam_name = $cam_desc = $category = $cam_image = $owner_name = $owner_desc = $owner_image = $URL = $username =  "";
 $cam_name_err = $cam_desc_err = $category_err = $owner_name_err = $owner_desc_err = "";
 
 // Processing form data when form is submitted
@@ -95,15 +95,18 @@ $cam_image = $_SESSION['path'];
   //URL
   $URL = trim($_POST["URL"]);
 
+  //username
+  $username = $_SESSION['username'];
+
     // Check input errors before inserting in database
     if(empty($cam_name_err) && empty($cam_desc_err) && empty($category_err) && empty($owner_name_err) && empty($owner_desc_err)){
 
         // Prepare an insert statement
-        $sql = "INSERT INTO approval (cam_name, cam_desc, category, cam_image, owner_name, owner_desc, owner_image, URL) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+        $sql = "INSERT INTO approval (cam_name, cam_desc, category, cam_image, owner_name, owner_desc, owner_image, URL, username) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssssss", $param_cam_name, $param_cam_desc, $param_category, $param_cam_image, $param_owner_name, $param_owner_desc, $param_owner_image, $param_URL);
+            mysqli_stmt_bind_param($stmt, "sssssssss", $param_cam_name, $param_cam_desc, $param_category, $param_cam_image, $param_owner_name, $param_owner_desc, $param_owner_image, $param_URL, $param_username);
 
             // Set parameters
             $param_cam_name = $cam_name;
@@ -114,6 +117,7 @@ $cam_image = $_SESSION['path'];
             $param_owner_desc = $owner_desc;
             $param_owner_image = $owner_image;
             $param_URL = $URL;
+              $param_username = $username;
 
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){

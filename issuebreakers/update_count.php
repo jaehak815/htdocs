@@ -4,7 +4,7 @@ session_start();
 	// connect to the database
 	$con = mysqli_connect('localhost', 'root', '111111', 'issuebreakers');
 //error_reporting(0);
-
+$session=$_SESSION["id"];
 // Retrieve campaigns from the database
 $camid = $_POST['camid'];
   $result = mysqli_query($con, "SELECT * FROM campaigns WHERE cam_id=$camid");
@@ -13,12 +13,14 @@ $row = mysqli_fetch_array($result);
 
 
 
+
+
   if (isset($_POST['liked'])) {
 
 
 
 
-    mysqli_query($con, "INSERT INTO likes (userid, camid) VALUES (1, $camid)");
+    mysqli_query($con, "INSERT INTO likes (userid, camid, count) VALUES ($session, $camid,count)");
     mysqli_query($con, "UPDATE campaigns SET likes=$n+1 WHERE cam_id=$camid");
 
     echo $n+1;
@@ -30,7 +32,7 @@ $row = mysqli_fetch_array($result);
 
 
 
-    mysqli_query($con, "DELETE FROM likes WHERE camid=$camid AND userid=1");
+    mysqli_query($con, "DELETE FROM likes WHERE camid=$camid AND userid=$session");
     mysqli_query($con, "UPDATE campaigns SET likes=$n-1 WHERE cam_id=$camid");
 
     echo $n-1;

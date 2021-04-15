@@ -393,6 +393,7 @@ function closeForm() {
               </li>
             </ul>
           </div>
+
           <div class="tm-page-col-right">
 
 <div class="tm-gallery" id="tmGallery">
@@ -406,9 +407,10 @@ function closeForm() {
      elseif ($row1["category"] == "Employment") {$a=  "tm-gallery-item category-3";}
      elseif ($row1["category"] == "Health") {$a=  "tm-gallery-item category-4";}
       elseif ($row1["category"] == "Others") {$a=  "tm-gallery-item category-5";}
+
       ?>
   <div class="<?php echo $a; ?>">
-       <figure class="effect-bubba">
+       <figure class="effect-bubba" id="myTable">
        <?php
         $var = $row1["cam_id"];  ?>
        <a  href="<?php echo "cam_detail.php?cam_id=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"

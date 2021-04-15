@@ -3,7 +3,8 @@ session_start();
 
  include("config.php");
  error_reporting(0);
-echo $_SESSION['id'] ;
+$session=$_SESSION["id"];
+echo $session;
       ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -25,7 +26,7 @@ echo $_SESSION['id'] ;
     </head>
   </head>
   <body>
-<?php echo htmlspecialchars($_SESSION["username"]); ?>
+
     <div class="tm-brand-images">
       <a href="index.php">
       <img src="img/issuebreakers.jpg" alt="issuebreakers" class="rounded mx-auto d-block">
@@ -55,6 +56,7 @@ $paragraph1 = $row["owner_desc"];
 
     <h4 class="display-4">Website<br>
     <p><a href="<?php echo $row["URL"]; ?>"><?php echo $row["URL"]; ?></a></h4><br></p>
+  <h4 class="h3">Written by: <?php echo $row['username']; ?></h4>
       <hr class="my-4">
 
 
@@ -65,7 +67,7 @@ $paragraph1 = $row["owner_desc"];
           <div style="padding: 2px; margin-top: 5px;">
           <?php
             // determine if user has already liked this post
-            $results = mysqli_query($link, "SELECT * FROM likes WHERE userid=1 AND camid=".$row['cam_id']."");
+            $results = mysqli_query($link, "SELECT * FROM likes WHERE count=1 AND camid=".$row['cam_id']."");
 
 
 
@@ -127,6 +129,8 @@ $paragraph1 = $row["owner_desc"];
             });
           });
         </script>
+
+
         <br>
         <h4>Share on</h4><br>
           <a
@@ -150,6 +154,9 @@ $paragraph1 = $row["owner_desc"];
               target="_blank"
               title="Click to share"><img src="img/plus.png">
         </a>
+
+
+
 
 
         </div>
