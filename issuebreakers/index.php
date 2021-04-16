@@ -418,7 +418,7 @@ function closeForm() {
 
          <figcaption>
            <h2><?php echo $row1["cam_name"]; ?></span></h2>
-           <p><?php echo $row1["likes"]; ?><br>People love it!</p>
+          <p><?php echo $row1["likes"]; ?><br>People love it!</p>
            <a  href="<?php echo "cam_detail.php?cam_id=".$var ?>"> <img src="<?php echo $row1["cam_image"];  ?>"   alt="Gallery item"
              class="img-fluid" ></a>
          </figcaption>

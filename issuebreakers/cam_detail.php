@@ -62,15 +62,29 @@ $paragraph1 = $row["owner_desc"];
 
     <!-- like dislike button -->
 
-  <!-- display campaigns gotten from the database  -->
+  <!-- check session for visitor to show different like button -->
 
+  <?php  if(!$session){
+     ?>  <a href="index.php" class="btn btn-info btn-lg" onclick="myFunction()">
+          <span class="glyphicon glyphicon-thumbs-up" ></span><?php echo $row['likes']; ?> likes
+        </a>
+  <?php
+
+  }  ?>
+  <script>
+  function myFunction() {
+    alert("Please login");
+  }
+  </script>
+
+<!-- display campaigns gotten from the database  -->
           <div style="padding: 2px; margin-top: 5px;">
           <?php
             // determine if user has already liked this post
-            $results = mysqli_query($link, "SELECT * FROM likes WHERE count=1 AND camid=".$row['cam_id']."");
-    
+            $results = mysqli_query($link, "SELECT * FROM likes WHERE count=1 AND userid=$session  AND camid=".$row['cam_id']."" );
 
-          if (mysqli_num_rows($results) == 1 ): ?>
+
+        if (mysqli_num_rows($results) == 1 ): ?>
               <!-- user already likes post -->
               <span class="unlike fa fa-thumbs-up" data-id="<?php echo $row['cam_id']; ?>"></span>
               <span class="like hide fa fa-thumbs-o-up" data-id="<?php echo $row['cam_id']; ?>"></span>
@@ -129,7 +143,6 @@ $paragraph1 = $row["owner_desc"];
           });
         </script>
 
-
         <br>
         <h4>Share on</h4><br>
           <a
@@ -153,10 +166,6 @@ $paragraph1 = $row["owner_desc"];
               target="_blank"
               title="Click to share"><img src="img/plus.png">
         </a>
-
-
-
-
 
         </div>
         </div>
