@@ -138,10 +138,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <style>
         body{ font: 14px sans-serif; }
         .wrapper{ width: 350px; padding: 20px; }
+
     </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" align="center">
   <div class="jumbotron">
     <div class="wrapper">
         <h2>Sign Up</h2>
@@ -149,42 +150,42 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>" placeholder="Enter username">
                 <span class="invalid-feedback"><?php echo $username_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
+                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>" placeholder="At least 6 digits">
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
+                <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>" placeholder="At least 6 digits">
                 <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" name="name" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
+                <input type="text" name="name" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>" placeholder="Full name">
                 <span class="invalid-feedback"><?php echo $name_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="text" name="email" class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $email; ?>">
+                <input type="text" name="email" class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $email; ?>" placeholder="@">
                 <span class="invalid-feedback"><?php echo $email_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Company</label>
-                <input type="text" name="company" class="form-control " value="<?php echo $company; ?>">
+                <input type="text" name="company" class="form-control " value="<?php echo $company; ?>" placeholder="Enter company name">
 
             </div>
             <div class="form-group">
                 <label>Occupation</label>
-                <input type="text" name="occupation" class="form-control " value="<?php echo $occupation; ?>">
+                <input type="text" name="occupation" class="form-control " value="<?php echo $occupation; ?>" placeholder="Enter your occupation">
 
             </div>
             <div class="form-group">
                 <label>Message</label>
-                <textarea name="message" rows="8" cols="80" class="form-control " value="<?php echo $message; ?>"></textarea>
+                <textarea name="message" rows="8" cols="80" class="form-control " value="<?php echo $message; ?>"placeholder="Introduction"></textarea>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">

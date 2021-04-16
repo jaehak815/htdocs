@@ -68,10 +68,9 @@ $paragraph1 = $row["owner_desc"];
           <?php
             // determine if user has already liked this post
             $results = mysqli_query($link, "SELECT * FROM likes WHERE count=1 AND camid=".$row['cam_id']."");
+    
 
-
-
-            if (mysqli_num_rows($results) == 1 ): ?>
+          if (mysqli_num_rows($results) == 1 ): ?>
               <!-- user already likes post -->
               <span class="unlike fa fa-thumbs-up" data-id="<?php echo $row['cam_id']; ?>"></span>
               <span class="like hide fa fa-thumbs-o-up" data-id="<?php echo $row['cam_id']; ?>"></span>
