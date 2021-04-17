@@ -358,7 +358,7 @@ function closeForm() {
               <li>
                 <a href="#" class="active" data-filter="*">
                   <div class="tm-tab-icon"></div>
-                  All Types
+                  All Types (Like)
                 </a>
               </li>
               <li>
@@ -398,7 +398,7 @@ function closeForm() {
 
 <div class="tm-gallery" id="tmGallery">
   <?php
-   $sql1="select * from campaigns";
+   $sql1="select * from campaigns order by likes desc";
    $res1=mysqli_query($link, $sql1);
   while($row1=mysqli_fetch_assoc($res1)){
 
