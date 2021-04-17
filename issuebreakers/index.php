@@ -96,6 +96,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/templatemo-style.css" />
     <link rel="stylesheet" href="css/popup.css" />
+<!-- livesearch -->
+    <script>
+function showResult(str) {
+  if (str.length==0) {
+    document.getElementById("livesearch").innerHTML="";
+    document.getElementById("livesearch").style.border="0px";
+    return;
+  }
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.onreadystatechange=function() {
+    if (this.readyState==4 && this.status==200) {
+      document.getElementById("livesearch").innerHTML=this.responseText;
+      document.getElementById("livesearch").style.border="1px solid #A5ACB2" ;
+
+    }
+  }
+  xmlhttp.open("GET","livesearch.php?q="+str,true);
+  xmlhttp.send();
+}
+</script>
   </head>
   <body>
 
@@ -358,7 +378,7 @@ function closeForm() {
               <li>
                 <a href="#" class="active" data-filter="*">
                   <div class="tm-tab-icon"></div>
-                  All Types (Like)
+                  All Types(Like)
                 </a>
               </li>
               <li>
@@ -391,6 +411,10 @@ function closeForm() {
                   Others
                 </a>
               </li>
+              <form style="width: 250px; margin-left: 50px;">
+              <input type="text" size="20" onkeyup="showResult(this.value)" placeholder="Search campaign...">
+              <div id="livesearch"></div>
+              </form>
             </ul>
           </div>
 
