@@ -154,11 +154,7 @@ function showResult(str) {
 
                 <ul class="navbar-nav ml-auto mr-0">
 
-                  <div class="tm-nav-link-highlight"></div>
-                  <div class="nav-link">
-                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
-                  </div>
-
+                  <div class="tm-nav-link-highlight"></div>            
                     <a class="nav-link" href="#"
                       >Home <span class="sr-only">(current)</span></a
                     >
@@ -175,7 +171,7 @@ function showResult(str) {
                     <div class="tm-nav-link-highlight"></div>
 
                 <?php if($_SESSION['username']){
-                ?> <a class="nav-link" href="logout.php" />Logout</a> &nbsp;
+                ?> <a class="nav-link" href="logout.php" /> <?php echo htmlspecialchars($_SESSION["username"]); ?><br>Logout</a> &nbsp;
                <?php } else { ?>
                  <a class="nav-link" onclick="openForm()"> Login </a>
                 <?php }

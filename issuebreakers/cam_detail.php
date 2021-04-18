@@ -44,7 +44,8 @@ $paragraph1 = $row["owner_desc"];
 
 <div class="container">
   <div class="jumbotron">
-    <p><img src="<?php echo $row["cam_image"];  ?>" class="img-fluid"  alt="Responsive image" ></p>
+    <p><img src="<?php echo $row["cam_image"];  ?>" class="img-fluid"  alt="Responsive image" ></p><br>
+    <hr class="my-4">
     <h1 class="display-4"><em><?php echo $row["cam_name"]; ?></em></h1><br>
     <p class="lead"><?php echo nl2br($paragraph); ?></p>
     <hr class="my-4">

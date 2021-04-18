@@ -54,10 +54,6 @@ session_start();
                       <ul class="navbar-nav ml-auto mr-0">
 
                         <div class="tm-nav-link-highlight"></div>
-                        <div class="nav-link">
-                       <?php echo htmlspecialchars($_SESSION["username"]); ?>
-                        </div>
-
                           <a class="nav-link" href="index.php"
                             >Home <span class="sr-only">(current)</span></a
                           >
@@ -67,7 +63,7 @@ session_start();
                           <div class="tm-nav-link-highlight"></div>
 
                       <?php if($_SESSION['username']){
-                      ?> <a class="nav-link" href="logout.php" />Logout</a> &nbsp;
+                      ?> <a class="nav-link" href="logout.php" /><?php echo htmlspecialchars($_SESSION["username"]); ?><br>Logout</a> &nbsp;
                      <?php } else { ?>
                        <a class="nav-link" href="login.php" > Login </a>
                      <?php } ?>
