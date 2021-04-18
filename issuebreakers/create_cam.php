@@ -1,3 +1,4 @@
+<!-- Create cam  -->
 <?php
 session_start();
 
@@ -6,9 +7,7 @@ if (!isset($_SESSION["username"])) {
     echo "<script>alert('Please login!');
     window.location.href = 'index.php';
 </script>";
-
 }
-
 
 // Include config file
 require_once "config.php";
@@ -84,10 +83,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   }
 
 //$cam_image
-
-
 $cam_image = $_SESSION['path'];
-
 
   //owner_image
   $owner_image = $_SESSION['path1'];
@@ -124,8 +120,6 @@ $cam_image = $_SESSION['path'];
 
   //Alert and Redirect to login page
   echo "<script>alert('Thank you. This form has been sent to admin. 1 to 2 business day to approve it.');window.location='index.php';</script>";
-
-
 
                 //header("location: login.php");
             } else{
@@ -189,9 +183,6 @@ $cam_image = $_SESSION['path'];
 
                </div>
 
-
-
-
 <div class="form-group">
   <label>Campaign Image</label>
   <input type="file" name="cam_image" id="file" />
@@ -199,9 +190,6 @@ $cam_image = $_SESSION['path'];
   <span id="uploaded_image"></span>
   <p class="help-block">Upload campaign image here.</p>
 </div>
-
-
-
 
             <div class="form-group">
                 <label>Owner name</label>
@@ -215,7 +203,6 @@ $cam_image = $_SESSION['path'];
 
             </div>
 
-
 <div class="form-group">
   <label>Owner Image</label>
   <input type="file" name="owner_image" id="file1" />
@@ -223,26 +210,21 @@ $cam_image = $_SESSION['path'];
   <span id="uploaded_image1"></span>
   <p class="help-block">Upload campaign image here.</p>
 </div>
-
             <div class="form-group">
                 <label>URL</label>
                 <input type="text" name="URL" class="form-control " value="<?php echo $URL; ?>">
-
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
-
             </div>
-
-
         </form>
-
     </div>
     </div>
       </div>
 </body>
 </html>
 
+<!-- Script for singlepage upload(cam_image) -->
 <script>
 $(document).ready(function(){
  $(document).on('change', '#file', function(){
@@ -284,6 +266,7 @@ $(document).ready(function(){
 });
 </script>
 
+<!-- Script for singlepage upload(owner_image) -->
 <script>
 $(document).ready(function(){
  $(document).on('change', '#file1', function(){

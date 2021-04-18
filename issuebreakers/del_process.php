@@ -1,3 +1,4 @@
+<!-- Admin clicks reject button -->
 <?php
 session_start();
  include("config.php");

@@ -4,7 +4,6 @@ session_start();
  include("config.php");
  error_reporting(0);
 $session=$_SESSION["id"];
-echo $session;
       ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -18,7 +17,6 @@ echo $session;
       <link rel="stylesheet" href="css/all.min.css" />
       <link rel="stylesheet" href="css/bootstrap.min.css" />
       <link rel="stylesheet" href="css/templatemo-style.css" />
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="css/like.css">
@@ -53,7 +51,6 @@ $paragraph1 = $row["owner_desc"];
     <p><img src="<?php echo $row["owner_image"];  ?>" class="img-fluid" alt="Responsive image" ></p>
     <h2 class="display-4"><em><?php echo "Sponsor: ".$row["owner_name"]; ?></em></h2><br>
     <p><?php echo nl2br($paragraph1); ?></p><br>
-
     <h4 class="display-4">Website<br>
     <p><a href="<?php echo $row["URL"]; ?>"><?php echo $row["URL"]; ?></a></h4><br></p>
   <h4 class="h3">Written by: <?php echo $row['username']; ?></h4>
@@ -150,17 +147,14 @@ $paragraph1 = $row["owner_desc"];
               target="_blank"
               title="Click to share"><img src="img/facebook.png" >
         </a>
-
         <a
               href="http://twitter.com/share?text=IssueBreakers&url=http://www.issuebreakers.com"
               target="_blank"
               title="Click to post to Twitter"><img src="img/twitter.png">
         </a>
-
         <a
         rel="nofollow" href="http://www.linkedin.com/shareArticle?mini=true&url=http://www.issuebreakers.com"> <img src="img/linkedin.png">
         </a>
-
         <a
               href="https://plus.google.com/share?url=http://www.issuebreakers.com"
               target="_blank"

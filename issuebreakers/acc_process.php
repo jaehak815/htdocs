@@ -1,3 +1,4 @@
+<!-- Admin clicks Accept button -->
 <?php
 session_start();
  include("config.php");

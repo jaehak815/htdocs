@@ -1,3 +1,4 @@
+<!-- Upload for cam_image -->
 <?php
 session_start();
 
@@ -7,11 +8,6 @@ session_start();
    $test = explode('.', $_FILES["file"]["name"]);
    $ext = end($test);
    $name = rand(100, 999) . '.' . $ext;
-// }
-//  if(isset($_FILES['cam_image'])){
-
-
-
   $location = './img/campaign/' . $name;
   move_uploaded_file($_FILES["file"]["tmp_name"], $location);
   echo '<img src="'.$location.'" height="150" width="225" class="img-thumbnail" />';
@@ -21,13 +17,5 @@ $_SESSION['path'] = $filepath;
 
 
 }
-//  if(isset($_FILES['owner_image'])){
-//   $location = './img/owner/' . $name;
-//   move_uploaded_file($_FILES["file"]["tmp_name"], $location);
-//   echo '<img src="'.$location.'" height="150" width="225" class="img-thumbnail" />';
-//     $filepath = "img/owner/".$name;
-//   echo "$filepath";
-//   $_SESSION['path1'] = $filepath;
-//   }
 
 ?>

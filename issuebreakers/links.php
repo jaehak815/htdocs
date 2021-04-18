@@ -1,3 +1,4 @@
+<!-- showing list of campaigns from DB for livesearch -->
 <?php
 $con=mysqli_connect('localhost','root','111111','issuebreakers');
 $sql= "select * from campaigns";

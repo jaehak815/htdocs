@@ -1,8 +1,8 @@
+<!-- Manage page shows approval campaings  -->
 <?php
 session_start();
  include("config.php");
  error_reporting(0);
-
       ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -19,12 +19,12 @@ session_start();
     </head>
   </head>
   <body>
-
     <div class="tm-brand-images">
       <a href="index.php">
       <img src="img/issuebreakers.jpg" alt="issuebreakers" class="rounded mx-auto d-block">
       </a>
     </div>
+
 <?php
     $sql = "SELECT * FROM approval where cam_id=".$_GET['camid'];
 $result = mysqli_query($link, $sql);
@@ -32,11 +32,9 @@ $result = mysqli_query($link, $sql);
 if (mysqli_num_rows($result) > 0) {
   // output data of each row
   while($row = mysqli_fetch_assoc($result)) {
-
 $paragraph = $row["cam_desc"];
 $paragraph1 = $row["owner_desc"];
   ?>
-
 <div class="container">
   <div class="jumbotron" >
     <p><img src="<?php echo $row["cam_image"];  ?>" class="img-fluid" alt="Responsive image"></p>
@@ -51,19 +49,13 @@ $paragraph1 = $row["owner_desc"];
      $var = $row["cam_id"];  ?>
     <a class="btn btn-success" href="<?php echo "acc_process.php?camid1=".$var ?>" role="button">Accept</a>
     <a class="btn btn-danger" href="<?php echo "del_process.php?camid1=".$var ?>" role="button">Reject</a>
-
   </div>
   </div>
 <?php  }
 } else {
   echo "0 results";
 }
-
 mysqli_close($conn);
  ?>
-
-
-
-
   </body>
 </html>

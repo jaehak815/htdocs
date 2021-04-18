@@ -1,3 +1,5 @@
+
+<!-- login_process -->
 <?php
 
 // Initialize the session
@@ -82,7 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //mysqli_close($link);
 }
 ?>
-
+<!-- end login_process -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -118,10 +120,11 @@ function showResult(str) {
 </script>
   </head>
   <body>
+<!-- End livesearch -->
 
 <!-- scroll up -->
 <a href="#" id="toTopBtn" class="cd-top text-replace js-cd-top cd-top--is-visible cd-top--fade-out" data-abc="true"></a>
-
+<!-- end scroll up -->
     <div class="container-fluid">
       <div class="row tm-brand-row">
         <div class="col-lg-4 col-10">
@@ -178,23 +181,18 @@ function showResult(str) {
                 <?php }
                 ?>
                 </li>
+
+
 <!-- login form -->
-
-
-
 <div class="form-popup" id="myForm">
-    <!-- <div class="wrapper"> -->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-container">
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
-
         <?php
         if(!empty($login_err)){
             echo '<div class="alert alert-danger">' . $login_err . '</div>';
         }
         ?>
-
-
             <div class="form-group" style="width: 270px;">
                 <label>Username</label>
                 <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>" required>
@@ -209,14 +207,9 @@ function showResult(str) {
                 <input type="submit" class="btn btn-primary" value="Login">
                   <a href="register.php" class="btn btn-outline-info">Register</a>
                   <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
-
             </div>
-
-
         </form>
-    <!-- </div> -->
 </div>
-
 <script>
 function openForm() {
   document.getElementById("myForm").style.display = "block";
@@ -226,17 +219,15 @@ function closeForm() {
   document.getElementById("myForm").style.display = "none";
 }
 </script>
+<!-- End login form -->
 
 
                   <li class="nav-item">
                     <div class="tm-nav-link-highlight"></div>
-
                 <?php
                  if (($_SESSION["username"]=="admin") && ($_SESSION["usergroup"]==0)) {
                 ?> <a class="nav-link" href="approval.php" />Manage</a> &nbsp;
                <?php  }    ?>
-
-
                   </li>
                 </ul>
               </div>
@@ -261,7 +252,6 @@ function closeForm() {
           </div>
         </div>
       </div>
-
       <section class="row tm-pt-4 tm-pb-6">
         <div class="col-12 tm-page-cols-container">
           <div class="tm-page-col-right">
@@ -320,11 +310,10 @@ function closeForm() {
           </div>
         </div>
       </div>
-      <!-- row -->
 
+      <!-- row -->
       <section class="row tm-pt-4 tm-pb-6" id="about">
         <div class="col-12 tm-tabs-container tm-page-cols-container">
-
           <div class="tm-page-col-right tm-tab-contents">
             <div id="first-tab-group" class="tabgroup">
               <div id="tab1">
@@ -347,7 +336,6 @@ function closeForm() {
                 Sandeep Kaur (Database developer)<br>
                   </p>
                 </div>
-
               </div>
             </div>
           </div>
@@ -355,6 +343,8 @@ function closeForm() {
       </section>
 
 <!-- campaigns page -->
+
+<!-- Create campaigns board -->
       <div class="row tm-welcome-row" id="campaigns">
         <div class="col-12">
           <div
@@ -371,6 +361,7 @@ function closeForm() {
         </div>
       </div>
 
+<!-- Campaign nav -->
       <section class="row tm-pt-4">
         <div class="col-12 tm-page-cols-container">
           <div class="tm-page-col-left">
@@ -417,9 +408,10 @@ function closeForm() {
               </form>
             </ul>
           </div>
+<!-- End Campaign nav -->
 
-          <div class="tm-page-col-right">
-
+<!-- Display campaigns -->
+<div class="tm-page-col-right">
 <div class="tm-gallery" id="tmGallery">
   <?php
    $sql1="select * from campaigns order by likes desc";
@@ -471,6 +463,8 @@ function closeForm() {
     <script src="js/imagesloaded.pkgd.min.js"></script>
     <script src="js/isotope.pkgd.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+<!-- Script for scrollTop -->
 <script>
 $(document).ready(function() {
 $(window).scroll(function() {
@@ -491,6 +485,7 @@ return false;
 </script>
 
 
+<!-- script for isotope, imagesloaded -->
     <script>
       $(function() {
         /* Isotope Gallery */

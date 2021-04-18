@@ -1,3 +1,5 @@
+<!-- Approval page -->
+
 <?php
 session_start();
  include("config.php");
@@ -9,7 +11,6 @@ session_start();
  </script>";
  //    session_destroy();
  }
-
       ?>
       <!DOCTYPE html>
       <html lang="en">
@@ -53,7 +54,9 @@ session_start();
                       <ul class="navbar-nav ml-auto mr-0">
 
                         <div class="tm-nav-link-highlight"></div>
-                        <?php echo htmlspecialchars($_SESSION["username"]); ?>
+                        <div class="nav-link">
+                       <?php echo htmlspecialchars($_SESSION["username"]); ?>
+                        </div>
 
                           <a class="nav-link" href="index.php"
                             >Home <span class="sr-only">(current)</span></a
@@ -103,10 +106,19 @@ session_start();
      </div>
      <?php
 }
-
   $link->close();
    ?>
 </div>
 </div>
+
+<!-- Page footer -->
+<footer class="row tm-page-footer">
+  <p class="col-12 tm-copyright-text mb-0">
+    Email:admin@issuebreakers.com.au
+  </p>
+  <p class="col-12 tm-copyright-text mb-0">
+    Copyright &copy; 2021 IssueBreakers
+  </p>
+</footer>
   </body>
 </html>
