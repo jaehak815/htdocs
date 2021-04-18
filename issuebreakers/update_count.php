@@ -1,4 +1,3 @@
-<!-- checking whether user clicks like or not and process into DB -->
 <?php
 session_start();
 

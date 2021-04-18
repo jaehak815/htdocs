@@ -96,7 +96,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
     <link rel="stylesheet" href="css/all.min.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/templatemo-style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/popup.css" />
 <!-- livesearch -->
     <script>

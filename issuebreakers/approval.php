@@ -22,7 +22,7 @@ session_start();
           <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
           <link rel="stylesheet" href="css/all.min.css" />
           <link rel="stylesheet" href="css/bootstrap.min.css" />
-          <link rel="stylesheet" href="css/templatemo-style.css" />
+          <link rel="stylesheet" href="css/style.css" />
         </head>
         <body>
           <div class="container-fluid">
