@@ -12,7 +12,7 @@ session_start();
   move_uploaded_file($_FILES["file"]["tmp_name"], $location);
   echo '<img src="'.$location.'" height="150" width="225" class="img-thumbnail" />';
     $filepath = "img/campaign/".$name;
- echo "$filepath";
+ //echo "$filepath";
 $_SESSION['path'] = $filepath;
 
 

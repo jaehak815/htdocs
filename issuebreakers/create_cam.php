@@ -161,12 +161,12 @@ $cam_image = $_SESSION['path'];
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group">
                 <label>Campaign name</label>
-                <input type="text" name="cam_name" class="form-control <?php echo (!empty($cam_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $cam_name; ?>">
+                <input type="text" name="cam_name" class="form-control <?php echo (!empty($cam_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $cam_name; ?>" placeholder="Enter Campaign name">
                 <span class="invalid-feedback"><?php echo $cam_name_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Campaign Description</label>
-                <textarea name="cam_desc" rows="8" cols="80" class="form-control <?php echo (!empty($cam_desc_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $cam_desc; ?>"></textarea>
+                <textarea name="cam_desc" rows="8" cols="80" class="form-control <?php echo (!empty($cam_desc_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $cam_desc; ?>" placeholder="Enter Description, Location, Event date and others"></textarea>
                 <span class="invalid-feedback"><?php echo $cam_desc_err; ?></span>
 
             </div>
@@ -188,17 +188,17 @@ $cam_image = $_SESSION['path'];
   <input type="file" name="cam_image" id="file" />
   <br/>
   <span id="uploaded_image"></span>
-  <p class="help-block">Upload campaign image here.</p>
+  <p class="help-block"><em>(Upload campaign image here.) <br> Ideal for square size e.g.280X280 </em></p>
 </div>
 
             <div class="form-group">
                 <label>Owner name</label>
-                <input type="text" name="owner_name" class="form-control <?php echo (!empty($owner_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $owner_name; ?>">
+                <input type="text" name="owner_name" class="form-control <?php echo (!empty($owner_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $owner_name; ?>" placeholder="Enter Owner name">
                 <span class="invalid-feedback"><?php echo $owner_name_err; ?></span>
             </div>
             <div class="form-group">
                 <label>Owner Description</label>
-                <textarea name="owner_desc" rows="8" cols="80" class="form-control <?php echo (!empty($owner_desc_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $owner_desc; ?>"></textarea>
+                <textarea name="owner_desc" rows="8" cols="80" class="form-control <?php echo (!empty($owner_desc_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $owner_desc; ?>" placeholder="Enter Introduction, Location and others"></textarea>
                 <span class="invalid-feedback"><?php echo $owner_desc_err; ?></span>
 
             </div>
@@ -208,15 +208,17 @@ $cam_image = $_SESSION['path'];
   <input type="file" name="owner_image" id="file1" />
   <br/>
   <span id="uploaded_image1"></span>
-  <p class="help-block">Upload campaign image here.</p>
+  <p class="help-block"><em>(Upload Owner image here.)</em></p>
 </div>
             <div class="form-group">
                 <label>URL</label>
-                <input type="text" name="URL" class="form-control " value="<?php echo $URL; ?>">
+                <input type="text" name="URL" class="form-control " value="<?php echo $URL; ?>" placeholder="e.g. http://issuebreakers.com">
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
             </div>
+            <p><strong>Remember: This form will be sent to admin for approval process (1 to 2 business day). <br>Campaign will not be shown to public without approval.</strong></p>
+
         </form>
     </div>
     </div>
