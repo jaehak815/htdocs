@@ -8,6 +8,7 @@ session_start();
 require "config.php";
 error_reporting(0);
 
+// login_process
 // Define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = $login_err = "";
@@ -98,30 +99,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/popup.css" />
-<!-- livesearch -->
-    <script>
-function showResult(str) {
-  if (str.length==0) {
-    document.getElementById("livesearch").innerHTML="";
-    document.getElementById("livesearch").style.border="0px";
-    return;
-  }
-  var xmlhttp=new XMLHttpRequest();
-  xmlhttp.onreadystatechange=function() {
-    if (this.readyState==4 && this.status==200) {
-      document.getElementById("livesearch").innerHTML=this.responseText;
-      document.getElementById("livesearch").style.border="1px solid #A5ACB2" ;
-
-    }
-  }
-  xmlhttp.open("GET","livesearch.php?q="+str,true);
-  xmlhttp.send();
-}
-</script>
+    <script type="text/javascript" src="js\issuebreakers.js"></script>
+<!-- JS livesearch-->
   </head>
   <body>
-<!-- End livesearch -->
-
 <!-- scroll up -->
 <a href="#" id="toTopBtn" class="cd-top text-replace js-cd-top cd-top--is-visible cd-top--fade-out" data-abc="true"></a>
 <!-- end scroll up -->
@@ -154,7 +135,7 @@ function showResult(str) {
 
                 <ul class="navbar-nav ml-auto mr-0">
 
-                  <div class="tm-nav-link-highlight"></div>            
+                  <div class="tm-nav-link-highlight"></div>
                     <a class="nav-link" href="#"
                       >Home <span class="sr-only">(current)</span></a
                     >
@@ -206,15 +187,7 @@ function showResult(str) {
             </div>
         </form>
 </div>
-<script>
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
-
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
-</script>
+<!-- JS login -->
 <!-- End login form -->
 
 
@@ -460,75 +433,57 @@ function closeForm() {
     <script src="js/isotope.pkgd.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
-<!-- Script for scrollTop -->
+<!-- JS scrolltop -->
+
+  <!-- script for isotope, imagesloaded -->
 <script>
-$(document).ready(function() {
-$(window).scroll(function() {
-if ($(this).scrollTop() > 20) {
-$('#toTopBtn').fadeIn();
-} else {
-$('#toTopBtn').fadeOut();
-}
-});
+        $(function() {
+          /* Isotope Gallery */
 
-$('#toTopBtn').click(function() {
-$("html, body").animate({
-scrollTop: 0
-}, 1000);
-return false;
-});
-});
-</script>
+          // init isotope
+          var $gallery = $(".tm-gallery").isotope({
+            itemSelector: ".tm-gallery-item",
+            layoutMode: "fitRows"
+          });
+          // layout Isotope after each image loads
+          $gallery.imagesLoaded().progress(function() {
+            $gallery.isotope("layout");
+          });
 
+          $(".filters-button-group").on("click", "a", function() {
+            var filterValue = $(this).attr("data-filter");
+            $gallery.isotope({ filter: filterValue });
+            console.log("Filter value: " + filterValue);
+          });
 
-<!-- script for isotope, imagesloaded -->
-    <script>
-      $(function() {
-        /* Isotope Gallery */
+          /* Tabs */
+          $(".tabgroup > div").hide();
+          $(".tabgroup > div:first-of-type").show();
+          $(".tabs a").click(function(e) {
+            e.preventDefault();
+            var $this = $(this),
+              tabgroup = "#" + $this.parents(".tabs").data("tabgroup"),
+              others = $this
+                .closest("li")
+                .siblings()
+                .children("a"),
+              target = $this.attr("href");
+            others.removeClass("active");
+            $this.addClass("active");
 
-        // init isotope
-        var $gallery = $(".tm-gallery").isotope({
-          itemSelector: ".tm-gallery-item",
-          layoutMode: "fitRows"
+            // Scroll to tab content (for mobile)
+            if ($(window).width() < 992) {
+              $("html, body").animate(
+                {
+                  scrollTop: $("#tmGallery").offset().top
+                },
+                200
+              );
+            }
+          });
         });
-        // layout Isotope after each image loads
-        $gallery.imagesLoaded().progress(function() {
-          $gallery.isotope("layout");
-        });
 
-        $(".filters-button-group").on("click", "a", function() {
-          var filterValue = $(this).attr("data-filter");
-          $gallery.isotope({ filter: filterValue });
-          console.log("Filter value: " + filterValue);
-        });
 
-        /* Tabs */
-        $(".tabgroup > div").hide();
-        $(".tabgroup > div:first-of-type").show();
-        $(".tabs a").click(function(e) {
-          e.preventDefault();
-          var $this = $(this),
-            tabgroup = "#" + $this.parents(".tabs").data("tabgroup"),
-            others = $this
-              .closest("li")
-              .siblings()
-              .children("a"),
-            target = $this.attr("href");
-          others.removeClass("active");
-          $this.addClass("active");
-
-          // Scroll to tab content (for mobile)
-          if ($(window).width() < 992) {
-            $("html, body").animate(
-              {
-                scrollTop: $("#tmGallery").offset().top
-              },
-              200
-            );
-          }
-        });
-      });
-    </script>
-
+        </script>
   </body>
 </html>

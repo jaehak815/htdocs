@@ -20,6 +20,7 @@ $session=$_SESSION["id"];
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="css/like.css">
+        <script type="text/javascript" src="js\issuebreakers.js"></script>
 
     </head>
   </head>
@@ -69,11 +70,7 @@ $paragraph1 = $row["owner_desc"];
   <?php
 
   }  ?>
-  <script>
-  function myFunction() {
-    alert("Please login");
-  }
-  </script>
+
 
 <!-- display campaigns gotten from the database  -->
           <div style="padding: 2px; margin-top: 5px;">
@@ -97,49 +94,52 @@ $paragraph1 = $row["owner_desc"];
 
         <!-- likes dislikes script -->
         <script src="js/jquery.min.js"></script>
+
         <script>
-          $(document).ready(function(){
-            // when the user clicks on like
-            $('.like').on('click', function(){
-              var camid = $(this).data('id');
-                  $post = $(this);
-
-              $.ajax({
-                url: 'update_count.php',
-                type: 'post',
-                data: {
-                  'liked': 1,
-                  'camid': camid
-                },
-                success: function(response){
-                  $post.parent().find('span.likes_count').text(response + " likes");
-                  $post.addClass('hide');
-                  $post.siblings().removeClass('hide');
-                }
-              });
-            });
-
-            // when the user clicks on unlike
-            $('.unlike').on('click', function(){
-              var camid = $(this).data('id');
+        $(document).ready(function(){
+          // when the user clicks on like
+          $('.like').on('click', function(){
+            var camid = $(this).data('id');
                 $post = $(this);
 
-              $.ajax({
-                url: 'update_count.php',
-                type: 'post',
-                data: {
-                  'unliked': 1,
-                  'camid': camid
-                },
-                success: function(response){
-                  $post.parent().find('span.likes_count').text(response + " likes");
-                  $post.addClass('hide');
-                  $post.siblings().removeClass('hide');
-                }
-              });
+            $.ajax({
+              url: 'update_count.php',
+              type: 'post',
+              data: {
+                'liked': 1,
+                'camid': camid
+              },
+              success: function(response){
+                $post.parent().find('span.likes_count').text(response + " likes");
+                $post.addClass('hide');
+                $post.siblings().removeClass('hide');
+              }
             });
           });
-        </script>
+
+          // when the user clicks on unlike
+          $('.unlike').on('click', function(){
+            var camid = $(this).data('id');
+              $post = $(this);
+
+            $.ajax({
+              url: 'update_count.php',
+              type: 'post',
+              data: {
+                'unliked': 1,
+                'camid': camid
+              },
+              success: function(response){
+                $post.parent().find('span.likes_count').text(response + " likes");
+                $post.addClass('hide');
+                $post.siblings().removeClass('hide');
+              }
+            });
+          });
+        });
+
+
+</script>
 
         <br>
         <h4>Share on</h4><br>
