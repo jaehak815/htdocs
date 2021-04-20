@@ -1,6 +1,8 @@
 <?php
 session_start();
-echo $_SESSION["username"];
+$_SESSION["username"] = "8";
+
+echo "UserID is ".$_SESSION["username"];
 
 	// connect to the database
 	$con = mysqli_connect('localhost', 'root', '111111', 'issuebreakers');

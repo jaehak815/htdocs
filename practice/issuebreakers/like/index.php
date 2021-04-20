@@ -1,5 +1,5 @@
 <?php
-$con=mysqli_connect('localhost','root','111111','issuebreakers');
+$con=mysqli_connect('localhost','root','111111','practice');
 $sql="select * from like_dislike";
 $res=mysqli_query($con,$sql);
 ?>
@@ -49,11 +49,11 @@ $res=mysqli_query($con,$sql);
 					var cur_count=jQuery('#like_loop_'+id).html();
 					cur_count++;
 					jQuery('#like_loop_'+id).html(cur_count);
-			
+
 				}
 			});
-		}	
-		
+		}
+
 		function dislike_update(id){
 			jQuery.ajax({
 				url:'update_count.php',
@@ -63,10 +63,10 @@ $res=mysqli_query($con,$sql);
 					var cur_count=jQuery('#dislike_loop_'+id).html();
 					cur_count++;
 					jQuery('#dislike_loop_'+id).html(cur_count);
-			
+
 				}
 			});
-		}	
+		}
 		</script>
 	</body>
 </html>

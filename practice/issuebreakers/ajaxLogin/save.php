@@ -8,13 +8,13 @@
 		$city=$_POST['city'];
 		$password=$_POST['password'];
 
-		$duplicate=mysqli_query($conn,"select * from crud where email='$email'");
+		$duplicate=mysqli_query($conn,"select * from ajaxlogin where email='$email'");
 		if (mysqli_num_rows($duplicate)>0)
 		{
 			echo json_encode(array("statusCode"=>201));
 		}
 		else{
-			$sql = "INSERT INTO `crud`( `name`, `email`, `phone`, `city`, `password`)
+			$sql = "INSERT INTO `ajaxlogin`( `name`, `email`, `phone`, `city`, `password`)
 			VALUES ('$name','$email','$phone','$city', '$password')";
 			if (mysqli_query($conn, $sql)) {
 				echo json_encode(array("statusCode"=>200));
@@ -28,7 +28,7 @@
 	if($_POST['type']==2){
 		$email=$_POST['email'];
 		$password=$_POST['password'];
-		$check=mysqli_query($conn,"select * from crud where email='$email' and password='$password'");
+		$check=mysqli_query($conn,"select * from ajaxlogin where email='$email' and password='$password'");
 		if (mysqli_num_rows($check)>0)
 		{
 			$_SESSION['email']=$email;
