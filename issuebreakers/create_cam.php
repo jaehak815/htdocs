@@ -1,7 +1,7 @@
 <!-- Create cam  -->
 <?php
 session_start();
-
+error_reporting(0);
 if (!isset($_SESSION["username"])) {
 //If user did not login, will not be setting the session, it will jump back to the login page. Otherwise, continue to execute down HTML code
     echo "<script>alert('Please login!');
@@ -157,21 +157,21 @@ $cam_image = $_SESSION['path'];
   <div class="jumbotron">
     <div class="wrapper">
         <h2>Create campaigns</h2>
-        <p>Please fill this form to create a campaign.</p>
+        <p>Please fill this form to create a campaign. <strong>(* is required) </strong></p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group">
-                <label>Campaign name</label>
+                <label>*Campaign name</label>
                 <input type="text" name="cam_name" class="form-control <?php echo (!empty($cam_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $cam_name; ?>" placeholder="Enter Campaign name">
                 <span class="invalid-feedback"><?php echo $cam_name_err; ?></span>
             </div>
             <div class="form-group">
-                <label>Campaign Description</label>
+                <label>*Campaign Description</label>
                 <textarea name="cam_desc" rows="8" cols="80" class="form-control <?php echo (!empty($cam_desc_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $cam_desc; ?>" placeholder="Enter Description, Location, Event date and others"></textarea>
                 <span class="invalid-feedback"><?php echo $cam_desc_err; ?></span>
 
             </div>
             <div class="form-group">
-<dd><span class="title">Category:</span>
+<dd><span class="title">*Category:</span>
                     <select name="category" class="form-control <?php echo (!empty($category_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $category; ?>">
                       <span class="invalid-feedback"><?php echo $category_err; ?></span>
                      <option value ="Environment">Environment</option>
@@ -184,7 +184,7 @@ $cam_image = $_SESSION['path'];
                </div>
 
 <div class="form-group">
-  <label>Campaign Image</label>
+  <label>*Campaign Image</label>
   <input type="file" name="cam_image" id="file" />
   <br/>
   <span id="uploaded_image"></span>
@@ -192,19 +192,19 @@ $cam_image = $_SESSION['path'];
 </div>
 
             <div class="form-group">
-                <label>Owner name</label>
+                <label>*Owner name</label>
                 <input type="text" name="owner_name" class="form-control <?php echo (!empty($owner_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $owner_name; ?>" placeholder="Enter Owner name">
                 <span class="invalid-feedback"><?php echo $owner_name_err; ?></span>
             </div>
             <div class="form-group">
-                <label>Owner Description</label>
+                <label>*Owner Description</label>
                 <textarea name="owner_desc" rows="8" cols="80" class="form-control <?php echo (!empty($owner_desc_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $owner_desc; ?>" placeholder="Enter Introduction, Location and others"></textarea>
                 <span class="invalid-feedback"><?php echo $owner_desc_err; ?></span>
 
             </div>
 
 <div class="form-group">
-  <label>Owner Image</label>
+  <label>*Owner Image</label>
   <input type="file" name="owner_image" id="file1" />
   <br/>
   <span id="uploaded_image1"></span>
