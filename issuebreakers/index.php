@@ -10,6 +10,8 @@ error_reporting(0);
 
 // login_process
 // Define variables and initialize with empty values
+
+
 $username = $password = "";
 $username_err = $password_err = $login_err = "";
 

@@ -2,9 +2,10 @@
 <?php
 // Include config file
 require_once "config.php";
-
+include('smtp/PHPMailerAutoload.php');
+$msg="";
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = $name = $email = $company = $occupation = $message = "";
+$username = $password = $confirm_password = $name = $email = $company = $occupation = $message = $verification_id =  "";
 $username_err = $password_err = $confirm_password_err = $name_err = $email_err = "";
 
 // Processing form data when form is submitted
@@ -84,6 +85,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Set parameters
         $param_email = trim($_POST["email"]);
 
+
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
             /* store result */
@@ -93,6 +95,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $email_err = "This email is already exist.";
             } else{
                 $email = trim($_POST["email"]);
+                //verification_id
+                //  $verification_id = trim($_POST["verification_id"]);
+
+                $verification_id=rand(111111111,999999999);
+
             }
         } else{
             echo "Oops! Something went wrong. Please try again later1.";
@@ -113,15 +120,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   //message
   $message = trim($_POST["message"]);
 
+
+
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($name_err) && empty($email_err)){
 
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password, name, email,company, occupation, message) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (username, password, name, email,company, occupation, message, verification_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssssss", $param_username, $param_password, $param_name, $param_email, $param_company, $param_occupation, $param_message);
+            mysqli_stmt_bind_param($stmt, "ssssssss", $param_username, $param_password, $param_name, $param_email, $param_company, $param_occupation, $param_message,$param_verification_id);
 
             // Set parameters
             $param_username = $username;
@@ -131,7 +140,45 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_company = $company;
             $param_occupation = $occupation;
             $param_message = $message;
+            $param_verification_id = $verification_id;
 
+
+            $msg="We've just sent a verification link to <strong>$email</strong>. Please check your inbox and click on the link to get started. If you can't find this email (which could be due to spam filters), just request a new one here.";
+          $mailHtml="Please confirm your account registration by clicking the button or link below: <br> <a href='http://192.168.1.110/issuebreakers/check.php?id=$verification_id'><Strong>Here<Strong></a>";
+
+
+            $html='Msg';
+            //echo smtp_mailer($email,'Account Verification',$mailHtml);
+            function smtp_mailer($to,$subject, $msg){
+            	$mail = new PHPMailer();
+            	//$mail->SMTPDebug  = 3;
+            	$mail->IsSMTP();
+            	$mail->SMTPAuth = true;
+            	$mail->SMTPSecure = 'tls';
+            	$mail->Host = "smtp.gmail.com";
+            	$mail->Port = 587;
+            	$mail->IsHTML(true);
+            	$mail->CharSet = 'UTF-8';
+            	$mail->Username = "rright815@gmail.com";
+            	$mail->Password = "evpvZTVy3T!x5KR";
+            	$mail->SetFrom("rright815@gmail.com");
+            	$mail->Subject = $subject;
+            	$mail->Body =$msg;
+            	$mail->AddAddress($to);
+            	$mail->SMTPOptions=array('ssl'=>array(
+            		'verify_peer'=>false,
+            		'verify_peer_name'=>false,
+            		'allow_self_signed'=>false
+            	));
+            	if(!$mail->Send()){
+            		echo $mail->ErrorInfo;
+            	}else{
+            		return 'Sent';
+            	}
+            }
+
+
+          smtp_mailer($email,'Account Verification',$mailHtml);
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
 
@@ -142,7 +189,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             } else{
 
                 echo "Oops! Something went wrong. Please try again later2.";
-
+                echo "Error: " . var_dump($stmt) . "<br>" . $link->error;
             }
 
             // Close statement
@@ -222,6 +269,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="form-group">
                 <a href="index.php" class="btn btn-primary" >Back</a>
             </div>
+            <div class="message">
+        		<?php
+        		echo $msg;
+        		?>
+        		</div>
         </form>
     </div>
     </div>
