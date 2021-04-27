@@ -10,8 +10,17 @@ error_reporting(0);
 
 // login_process
 // Define variables and initialize with empty values
+
+
 $username = $password = "";
 $username_err = $password_err = $login_err = "";
+
+
+$user=$_SESSION["username"];
+//echo $user;
+
+
+
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -32,8 +41,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
+
+
+
+
         // Prepare a select statement
-        $sql = "SELECT id, username, password FROM users WHERE username = ?";
+        $sql = "SELECT id, username, password,verification_status FROM users WHERE username = ?";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -50,9 +63,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if username exists, if yes then verify password
                 if(mysqli_stmt_num_rows($stmt) == 1){
                     // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password, $verification_status);
                     if(mysqli_stmt_fetch($stmt)){
                         if(password_verify($password, $hashed_password)){
+                          if($verification_status==1){
+
                             // Password is correct, so start a new session
                             session_start();
 
@@ -62,28 +77,33 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["username"] = $username;
 
                             // Redirect user to index page
+
                             header("location: index.php");
+
+                             } else{
+                               $login_err ="You have not confirmed your account yet. Please check your inbox and verify your email id.";
+                             }
+                          }
                         } else{
                             // Password is not valid, display a generic error message
                             $login_err = "Invalid username or password.";
                         }
-                    }
+
+                  }
                 } else{
                     // Username doesn't exist, display a generic error message
                     $login_err = "Invalid username or password.";
                 }
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
-            }
-
+              }
             // Close statement
             //mysqli_stmt_close($stmt);
-        }
-    }
-
+}
     // Close connection
     //mysqli_close($link);
 }
+
 ?>
 <!-- end login_process -->
 
