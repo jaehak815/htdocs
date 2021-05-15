@@ -98,7 +98,7 @@ session_start();
     ?>
     <div class="list-group">
       <?php $var = $row["cam_id"]; ?>
-      <a href="<?php echo "approval_detail.php?camid=".$var ?>" class="btn btn-secondary btn-lg"><?php echo $row["cam_name"]; ?></a><br>
+      <a href="<?php echo "approval_detail.php?camid=".$var ?>" class="btn btn-secondary btn-lg"><?php echo $row["cam_name"]; ?><br> <em><strong>Click to View</strong></em></a><br>
      </div>
      <?php
 }

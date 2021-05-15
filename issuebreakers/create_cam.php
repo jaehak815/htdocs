@@ -216,6 +216,7 @@ $cam_image = $_SESSION['path'];
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
+                  <a href="index.php" class="btn btn-primary" >Back</a>
             </div>
             <p><strong>Remember: This form will be sent to admin for approval process (1 to 2 business day). <br>Campaign will not be shown to public without approval.</strong></p>
 

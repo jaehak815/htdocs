@@ -11,16 +11,8 @@ error_reporting(0);
 // login_process
 // Define variables and initialize with empty values
 
-
 $username = $password = "";
 $username_err = $password_err = $login_err = "";
-
-
-$user=$_SESSION["username"];
-//echo $user;
-
-
-
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -41,8 +33,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
-
-
 
 
         // Prepare a select statement

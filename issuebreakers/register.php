@@ -265,9 +265,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
-            </div>
-            <div class="form-group">
-                <a href="index.php" class="btn btn-primary" >Back</a>
+                  <a href="index.php" class="btn btn-primary" >Back</a>
             </div>
             <div class="message">
         	<strong><em> Remember:"We will send a verification link to your email. Please check your inbox and spam box both and click on the link to get started. If you can't find this email (which could be due to spam filters), just request a new one here." </em></strong>

@@ -45,12 +45,12 @@ $paragraph1 = $row["owner_desc"];
 
 <div class="container">
   <div class="jumbotron">
-    <p><img src="<?php echo $row["cam_image"];  ?>" class="img-fluid"  alt="Responsive image" ></p><br>
+    <p><img src="<?php echo $row["cam_image"];  ?>" class="img-fluid"  alt="Responsive image" width="500"></p><br>
     <hr class="my-4">
     <h1 class="display-4"><em><?php echo $row["cam_name"]; ?></em></h1><br>
     <p class="lead"><?php echo nl2br($paragraph); ?></p>
     <hr class="my-4">
-    <p><img src="<?php echo $row["owner_image"];  ?>" class="img-fluid" alt="Responsive image" ></p>
+    <p><img src="<?php echo $row["owner_image"];  ?>" class="img-fluid" alt="Responsive image" width="300" ></p>
     <h2 class="display-4"><em><?php echo "The Campaign Owner - ".$row["owner_name"]; ?></em></h2><br>
     <p><?php echo nl2br($paragraph1); ?></p><br>
     <h4 class="display-4">Website<br>
@@ -153,14 +153,12 @@ $paragraph1 = $row["owner_desc"];
               target="_blank"
               title="Click to post to Twitter"><img src="img/twitter.png">
         </a>
-        <a
-        rel="nofollow" href="http://www.linkedin.com/shareArticle?mini=true&url=http://www.issuebreakers.com"> <img src="img/linkedin.png">
-        </a>
-        <a
-              href="https://plus.google.com/share?url=http://www.issuebreakers.com"
-              target="_blank"
-              title="Click to share"><img src="img/plus.png">
-        </a>
+        <a>
+           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+    	<script type="IN/Share" data-url="http://34.69.89.155/cam_detail.php?cam_id=<?php echo $_GET['cam_id']; ?>"></script>
+            </a>
+
+
 
         </div>
         </div>
