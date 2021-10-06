@@ -155,7 +155,7 @@ $paragraph1 = $row["owner_desc"];
         </a>
         <a>
            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
-    	<script type="IN/Share" data-url="http://34.69.89.155/cam_detail.php?cam_id=<?php echo $_GET['cam_id']; ?>"></script>
+    	<script type="IN/Share" data-url="http://192.168.1.110/issuebreakers/cam_detail.php?cam_id=<?php echo $_GET['cam_id']; ?>"></script>
             </a>
 
 
