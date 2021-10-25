@@ -195,7 +195,7 @@
 
 // const x =9;
 
-// const color = x > 10 ? 'red' : 'blue'; //if represent if, : is else
+// const color = x > 10 ? 'red' : 'blue'; //? represent if, : is else
 
 // console.log(color);
 
